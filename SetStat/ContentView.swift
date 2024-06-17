@@ -6,16 +6,39 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct ContentView: View {
+    @Query var workouts: [Workout]
+    @Environment(\.modelContext) var modelContext
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(workouts) { workout in
+
+                NavigationLink {
+                    AddWorkoutView()
+                } label: {
+                    VStack {
+                        Text(workout.name ?? "No name")
+                    }
+                }
+               
+               
+            }
+            .navigationTitle("Home")
+            .toolbar {
+                NavigationLink() {
+                    AddWorkoutView()
+                } label : {
+                    Image(systemName: "plus.circle")
+                        .resizable()
+                           .frame(width: 24, height: 24)
+                }
+
+            }
         }
-        .padding()
     }
 }
 

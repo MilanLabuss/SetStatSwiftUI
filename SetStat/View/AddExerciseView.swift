@@ -6,3 +6,125 @@
 //
 
 import Foundation
+import SwiftUI
+import SwiftData
+
+struct AddExerciseView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var exercisesNames: [ExerciseName]
+    @State private var showNameInput = false
+    @State private var exerciseName = ""
+    @State private var selection: ExerciseName?
+    @Environment(\.dismiss) private var dismiss
+    
+    //The passed down Workout Object passed down from the Workout
+    var workout: Workout?
+    
+    
+    var body: some View {
+        
+        
+        VStack {
+            HStack{
+                Spacer()
+                Button {
+                    //more to come
+                    showNameInput.toggle()
+                    
+                } label: {
+                    showNameInput ?
+                    Image(systemName: "minus.circle")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                    :
+                    Image(systemName: "plus.circle")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                    
+                }
+                .padding(28)
+                .buttonStyle(PlainButtonStyle())
+                .foregroundStyle(.blue)
+            }
+            if(showNameInput == true) {
+                HStack{
+                    TextField("Enter Exercise Name", text: $exerciseName)
+                        .frame(height: 32)
+                        .textFieldStyle(.roundedBorder)
+                    
+                    
+                    
+                    Button {
+                        //database operation adding exerciseName to ExerciseName model
+                        if (!exerciseName.isEmpty) {
+                            let newExeriseName = ExerciseName(name: exerciseName)
+                            modelContext.insert(newExeriseName)
+                            showNameInput.toggle()
+                        }
+                        
+                    }label: {
+                        Text("Add")
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(height: 32)
+                    .frame(width: 70)
+                    .background(Color.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .shadow(radius: 1)
+                    
+                }
+                .padding(.leading)
+                .padding(.trailing)
+                
+            }
+            
+            List(exercisesNames,id: \.self, selection: $selection)  { exercisename in
+                Text(exercisename.name)
+            }
+            
+            
+            Button {
+                //check If selection isnt empty than create an Exercise with this(selection) as the ExerciseName
+                //and dismiss this sheet
+                if(selection != nil) {
+                    let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: Date.now)
+                    
+                    modelContext.insert(newExercise)
+                    
+                    //Unwrapping workout to also write to workout
+                    if let workout = workout {
+                       workout.exercises?.append(newExercise)
+                    }
+                    
+                    
+                    dismiss()
+                }
+                
+            } label: {
+                Text("Done")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .shadow(radius: 2)
+                    .padding()
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            
+        }
+        .background(Color(.systemGroupedBackground))
+        .onAppear {
+            if exercisesNames.isEmpty {
+                showNameInput=true
+            }
+        }
+        
+        
+    }
+    
+}
+

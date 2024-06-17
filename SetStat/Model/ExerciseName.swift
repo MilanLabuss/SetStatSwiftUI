@@ -6,3 +6,17 @@
 //
 
 import Foundation
+import SwiftData
+
+@Model
+class ExerciseName {
+
+    var name: String
+    
+    init( name: String) {
+        self.name = name
+    }
+    
+    
+}
+
