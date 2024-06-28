@@ -24,20 +24,19 @@ struct EditExeriseView: View {
     @State private var showSheet = false
     @State private var showCancelAlert = false
     
- //   @FocusState private var weightIsFocused: Bool
-   // @FocusState private var repsIsFocused: Bool
+    
     
     init(exercise: Exercise, sets: [Set]) {
         self.exercise = exercise
-        if let newSets = exercise.sets {    //unwrapping to use
-            if (!newSets.isEmpty) { //we passed actual sets in so set them to our sets
+        if let newSets = exercise.sets {    //unwrapping the passed exercises sets
+            if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
                 self.sets = newSets
             }
-            else {      //the exercise had no sets meaning an empty array was passed so we fill it
+            else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
                 self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
             }
             
-        } 
+        }
         //The optional exercise sets array was empty so load default
         else {
             self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
@@ -157,7 +156,7 @@ struct EditExeriseView: View {
             ToolbarItem(placement: .topBarTrailing){
                 Button{
                     save()
-
+                    
                     
                 }label: {
                     Text("Done")
@@ -189,12 +188,12 @@ struct EditExeriseView: View {
         //first inserting the sets into the Sets model
         for set in sets {
             if(set.isCompleted){
-            //    let newSet = set
+                //    let newSet = set
                 modelContext.insert(set)
                 exercise.sets?.append(set)
                 print("\(exercise.sets!)")
                 print("\(sets)")
-              //  exercise.sets?.append(set)
+                //  exercise.sets?.append(set)
             } else {
                 print("this set was not toggled")
             }

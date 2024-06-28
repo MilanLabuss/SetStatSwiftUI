@@ -15,7 +15,7 @@ class Workout {
     @Relationship(deleteRule: .cascade) //when deleting a workout you delete all exericses that happened during that workout
     var exercises: [Exercise]?
     
-    var startDate: Date?
+    var startTime: Date?
     var endTime: Date?
     
     init(id: UUID) {

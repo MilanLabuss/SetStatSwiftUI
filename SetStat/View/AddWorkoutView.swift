@@ -91,11 +91,10 @@ struct AddWorkoutView: View {
                     // Save the Content (Everything is optional so just save it as Is but i will demand a name)
                     if(!workoutName.isEmpty) {
                         workout.name = workoutName
-                        workout.startDate = workoutStartTime
+                        workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
                         dismiss()
-                        
                     }
        
                 } label: {

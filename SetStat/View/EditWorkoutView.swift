@@ -32,7 +32,7 @@ struct EditWorkoutView: View {
     init(workout: Workout) {
         self.workout = workout
         self.workoutName = workout.name ?? ""
-        self.workoutStartTime = workout.startDate ?? Date.now
+        self.workoutStartTime = workout.startTime ?? Date.now
         self.workoutEndTime = workout.endTime ?? Date.now
     }
     
@@ -94,7 +94,7 @@ struct EditWorkoutView: View {
                     //we save the workout before going back since we are editing one here not creating it
                     if(!workoutName.isEmpty) {
                         workout.name = workoutName
-                        workout.startDate = workoutStartTime
+                        workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
                         dismiss()
@@ -115,7 +115,7 @@ struct EditWorkoutView: View {
                     // Save the Content (Everything is optional so just save it as Is but i will demand a name)
                     if(!workoutName.isEmpty) {
                         workout.name = workoutName
-                        workout.startDate = workoutStartTime
+                        workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
                         dismiss()
