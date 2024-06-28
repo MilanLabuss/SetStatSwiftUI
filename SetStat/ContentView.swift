@@ -10,10 +10,7 @@ import SwiftData
 
 
 struct ContentView: View {
-//    let descriptor = FetchDescriptor<Workout>(
-//        sortBy: [SortDescriptor(\.endTime, order: .reverse)]
-//    )
-    
+
     static var fetchDescriptor: FetchDescriptor<Workout> {
             var descriptor = FetchDescriptor<Workout>(
                 sortBy: [
@@ -26,13 +23,6 @@ struct ContentView: View {
         }
     
     @Query(fetchDescriptor) private var workouts: [Workout]
-    
-
-
-   
-    
-   // @Query var workouts: [Workout]
-    
    
     @Environment(\.modelContext) var modelContext
     @State private var selection: Workout?
