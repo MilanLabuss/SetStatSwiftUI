@@ -11,6 +11,10 @@ import SwiftData
 
 struct HomeView: View {
     
+    //@State private var pathStore = PathStore()
+
+    @EnvironmentObject var router: Router
+
     static var fetchDescriptor: FetchDescriptor<Workout> {
         var descriptor = FetchDescriptor<Workout>(
             sortBy: [
@@ -29,16 +33,15 @@ struct HomeView: View {
     
     
     var body: some View {
-        NavigationStack {
-            
-            
+        NavigationStack(path: $router.path) {
+
             if workouts.isEmpty {
                 ContentUnavailableView {
                     Label("No workouts yet", systemImage: "dumbbell.fill")
                 } description: {
                     Text("Tap the button below to get started")
                 } actions: {
-                    NavigationLink() {
+                    NavigationLink {
                         AddWorkoutView()
                             .navigationBarBackButtonHidden(true)
                     } label : {
@@ -53,10 +56,7 @@ struct HomeView: View {
                 List {
                     Section(header: Text("Recent Workouts")) {
                         ForEach(workouts) { workout in
-                            NavigationLink {
-                                EditWorkoutView(workout: workout)
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
+                            NavigationLink(value: workout) {
                                 //The UI of each List Item
                                 HStack(spacing: 19) {
                                     
@@ -127,6 +127,12 @@ struct HomeView: View {
                     }
                     
                 }
+                .navigationDestination(for: Workout.self) { workout in
+                            EditWorkoutView(workout: workout)
+                                .toolbar(.hidden, for: .tabBar)
+                                .navigationBarBackButtonHidden(true)
+                                
+                        }
                 .navigationTitle("Home")
                 .toolbar {
 
@@ -138,18 +144,28 @@ struct HomeView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink() {
                             AddWorkoutView()
+                                .toolbar(.hidden, for: .tabBar)
                                 .navigationBarBackButtonHidden(true)
+                            
                         } label : {
-                            Image(systemName: "plus.circle")
+//                            Image(systemName: "plus.circle")
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
+                            Image(systemName: "dumbbell")
                                 .resizable()
-                                .frame(width: 24, height: 24)
+                                .rotationEffect(.degrees(-37))
+                               // .frame(width: 24, height: 24)
                         }
                     }
                     
                 }
             }
+               
            
         }
+        
+    
+       
     }
 }
 

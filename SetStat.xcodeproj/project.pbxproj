@@ -25,6 +25,8 @@
 		B91FE9D52C2F10E100DAA15E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9D42C2F10E100DAA15E /* HomeView.swift */; };
 		B91FE9DA2C2F118300DAA15E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9D92C2F118300DAA15E /* HistoryView.swift */; };
 		B91FE9DD2C2F11BA00DAA15E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */; };
+		B91FE9DF2C30262A00DAA15E /* PathStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9DE2C30262A00DAA15E /* PathStore.swift */; };
+		B91FE9E12C31704C00DAA15E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9E02C31704C00DAA15E /* Router.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		B91FE9D42C2F10E100DAA15E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B91FE9D92C2F118300DAA15E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		B91FE9DE2C30262A00DAA15E /* PathStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathStore.swift; sourceTree = "<group>"; };
+		B91FE9E02C31704C00DAA15E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,8 @@
 		B91FE9D12C2EA67600DAA15E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B91FE9DE2C30262A00DAA15E /* PathStore.swift */,
+				B91FE9E02C31704C00DAA15E /* Router.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -350,8 +356,10 @@
 				B91FE9DA2C2F118300DAA15E /* HistoryView.swift in Sources */,
 				B90C9FF02C19FA1200EE25F2 /* AddWorkoutView.swift in Sources */,
 				B90C9FEB2C19F5B900EE25F2 /* Set.swift in Sources */,
+				B91FE9DF2C30262A00DAA15E /* PathStore.swift in Sources */,
 				B90C9FBE2C19F42900EE25F2 /* ContentView.swift in Sources */,
 				B90C9FBC2C19F42900EE25F2 /* SetStatApp.swift in Sources */,
+				B91FE9E12C31704C00DAA15E /* Router.swift in Sources */,
 				B91FE9D52C2F10E100DAA15E /* HomeView.swift in Sources */,
 				B90C9FF22C1AECFD00EE25F2 /* AddExerciseView.swift in Sources */,
 				B90C9FE92C19F57C00EE25F2 /* ExerciseName.swift in Sources */,

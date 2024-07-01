@@ -50,6 +50,7 @@ struct EditExeriseView: View {
                 Section(header: Text("Sets")) {
                     ForEach($sets){ $set  in
                         HStack(spacing: 10) {
+                            //The CheckMark Button
                             Image(
                                 systemName: set.isCompleted ?
                                 "checkmark.circle" :
@@ -59,8 +60,10 @@ struct EditExeriseView: View {
                             .foregroundStyle(set.isCompleted ? .blue : .black)
                             .imageScale(.large)
                             .onTapGesture {
-                                
-                                set.isCompleted.toggle()
+                                if(set.reps != 0 && set.weight != 0) {
+                                    set.isCompleted.toggle()
+                                }
+                               
                                 
                             }
                             //Enter Reps and Weight
@@ -120,10 +123,9 @@ struct EditExeriseView: View {
                     .deleteDisabled(sets.count < 2) //making sure you have to have at least one Set
                     //End of List Items
                 }
-                
+                //Adding a New Set to the Temporary Array
                 Section {
                     Button{
-                        //Adding a New Set to the Temporary Array
                         if(sets.count <= 7) {
                             let newSet = Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise)
                             sets.append(newSet)

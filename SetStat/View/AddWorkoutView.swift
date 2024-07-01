@@ -12,6 +12,7 @@ struct AddWorkoutView: View {
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var router: Router
     
     @State private var workoutName: String = ""
     @State private var showExercieSheet = false
@@ -22,55 +23,56 @@ struct AddWorkoutView: View {
     @State private var workout: Workout = Workout(id: UUID())
     
     @State private var showCancelAlert = false
- 
+    
+    
     var body: some View {
-        VStack {
-            List {
-                
-                Section(header: Text("Workout Details")) {
-                    TextField("Enter workout name",text: $workoutName)
-                    DatePicker("Start Time", selection: $workoutStartTime)
-                    DatePicker("End Time", selection: $workoutEndTime)
+        NavigationStack(path: $router.path) {
+            VStack {
+                List {
+                    Section(header: Text("Workout Details")) {
+                        TextField("Enter workout name",text: $workoutName)
+                        DatePicker("Start Time", selection: $workoutStartTime)
+                        DatePicker("End Time", selection: $workoutEndTime)
+                        
+                    }
+                    
+                    Section(header: Text("Exercises")) {
+                        if let exercises =  workout.exercises {
+                            ForEach(exercises){ exercise in
+                                NavigationLink(value: exercise) {
+                                    Text(exercise.exerciseName.name)
+                                        .padding(.top, 5)
+                                        .padding(.bottom, 5)
+                                }
+                            }
+                            .onDelete(perform: delete)
+                        } else {
+                            Text("No Exericses Yet")
+                        }
+                    }
+                    
+                    
+                    
+                    Section {
+                        Button {
+                            showExercieSheet = true
+                            
+                        } label: {
+                            Text("Add Exercise")
+                            
+                        }
+                    }
                     
                 }
-                
-                Section(header: Text("Exercises")) {
-                    if let exercises =  workout.exercises {
-                        ForEach(exercises){ exercise in
-                            NavigationLink {
-                                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                Text(exercise.exerciseName.name)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 5)
-                            }
-                        }
-                        .onDelete(perform: delete)
-                    } else {
-                        Text("No Exericses Yet")
-                    }
-                   
-                    //.onDelete(perform: delete)
+                .navigationDestination(for: Exercise.self) { exercise in
+                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+                        .navigationBarBackButtonHidden(true)
                 }
-                
-                
-                
-                Section {
-                    Button {
-                        showExercieSheet = true
-                        
-                    } label: {
-                        Text("Add Exercise")
-                        
-                    }
-                }
+                .listStyle(.insetGrouped)
                 
             }
-            
-            .listStyle(.insetGrouped)
-            
         }
+        
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button{
@@ -96,7 +98,7 @@ struct AddWorkoutView: View {
                         modelContext.insert(workout)
                         dismiss()
                     }
-       
+                    
                 } label: {
                     Text("Save")
                         .font(.headline)
@@ -108,7 +110,6 @@ struct AddWorkoutView: View {
         }
         
         .sheet(isPresented: $showExercieSheet) {
-            
             AddExerciseView(workout: workout)
                 .presentationDragIndicator(.visible)
             
@@ -125,6 +126,25 @@ struct AddWorkoutView: View {
         } message: {
             Text("Are you sure you want to cancel?")
         }
+//        .onChange(of: workout.exercises) { oldExercises ,newExercises in
+//            guard let oldExercises = oldExercises, let newExercises = newExercises else {
+//                   return
+//               }
+//               
+//               // Convert arrays to sets for efficient difference calculation
+//               let oldSet = Set(oldExercises)
+//               let newSet = Set(newExercises)
+//               
+//               // Find exercises in newSet that are not in oldSet
+//               let addedExercises = Array(newSet.subtracting(oldSet))
+//               
+//               // Now you have the added exercises in addedExercises array
+//               for exercise in addedExercises {
+//                   // Perform your work with the added exercise here
+//                   print("Added exercise: \(exercise)")
+//               }
+//
+//                }
         
         
         

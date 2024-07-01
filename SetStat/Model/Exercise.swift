@@ -32,6 +32,33 @@ class Exercise: Identifiable {
         self.exerciseName = exerciseName
         self.date = date
     }
-    
+//    
+//    // Codable conformance
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case exerciseName
+//        case sets
+//        case date
+//        case workout
+//    }
+//    
+//    required init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        id = try container.decode(UUID.self, forKey: .id)
+//        exerciseName = try container.decode(ExerciseName.self, forKey: .exerciseName)
+//        sets = try container.decodeIfPresent([Set].self, forKey: .sets)
+//        date = try container.decode(Date.self, forKey: .date)
+//        workout = try container.decodeIfPresent(Workout.self, forKey: .workout)
+//    }
+//    
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(id, forKey: .id)
+//        try container.encode(exerciseName, forKey: .exerciseName)
+//        try container.encodeIfPresent(sets, forKey: .sets)
+//        try container.encode(date, forKey: .date)
+//        try container.encodeIfPresent(workout, forKey: .workout)
+//    }
+//    
     
 }

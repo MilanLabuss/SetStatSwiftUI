@@ -133,7 +133,6 @@ struct EditWorkoutView: View {
         }
         
         .sheet(isPresented: $showExercieSheet) {
-            
             AddExerciseView(workout: workout)
                 .presentationDragIndicator(.visible)
             

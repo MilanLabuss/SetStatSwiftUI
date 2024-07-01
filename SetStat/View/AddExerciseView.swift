@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 import SwiftData
 
+
+//This will be Presented as a Sheet
 struct AddExerciseView: View {
     @Environment(\.modelContext) var modelContext
     @Query var exercisesNames: [ExerciseName]
@@ -20,6 +22,7 @@ struct AddExerciseView: View {
     //The passed down Workout Object passed down from the Workout
     var workout: Workout?
     
+    @EnvironmentObject var router: Router
     
     var body: some View {
         
@@ -97,6 +100,8 @@ struct AddExerciseView: View {
                        workout.exercises?.append(newExercise)
                     }
                     
+                   
+                   // router.path.append(newExercise)
                     
                     dismiss()
                 }
