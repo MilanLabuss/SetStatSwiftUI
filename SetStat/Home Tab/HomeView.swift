@@ -12,9 +12,9 @@ import SwiftData
 struct HomeView: View {
     
     //@State private var pathStore = PathStore()
-
+    
     @EnvironmentObject var router: Router
-
+    
     static var fetchDescriptor: FetchDescriptor<Workout> {
         var descriptor = FetchDescriptor<Workout>(
             sortBy: [
@@ -30,11 +30,14 @@ struct HomeView: View {
     
     @Environment(\.modelContext) var modelContext
     @State private var showDuplicateButton = false
+    @State private var isRotating = false
+    
+    
     
     
     var body: some View {
         NavigationStack(path: $router.path) {
-
+            
             if workouts.isEmpty {
                 ContentUnavailableView {
                     Label("No workouts yet", systemImage: "dumbbell.fill")
@@ -102,7 +105,7 @@ struct HomeView: View {
                                             RoundedRectangle(cornerRadius: 5)
                                                 .stroke(Color.black.opacity(0.4), lineWidth: 1)
                                         )
-                              
+                                        
                                     } else {
                                         Text("")
                                     }
@@ -128,18 +131,21 @@ struct HomeView: View {
                     
                 }
                 .navigationDestination(for: Workout.self) { workout in
-                            EditWorkoutView(workout: workout)
-                                .toolbar(.hidden, for: .tabBar)
-                                .navigationBarBackButtonHidden(true)
-                                
-                        }
+                    EditWorkoutView(workout: workout)
+                        .toolbar(.hidden, for: .tabBar)
+                        .navigationBarBackButtonHidden(true)
+                    
+                }
                 .navigationTitle("Home")
                 .toolbar {
-
                     ToolbarItem(placement: .topBarLeading) {
                         Button(showDuplicateButton ? "Done" : "Repeat") {
                             showDuplicateButton.toggle()
                         }
+                    }
+                    ToolbarItem(placement: .principal) {
+                        Text(Date.now, format: .dateTime.day().month().year())
+                            .fontWeight(.semibold)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink() {
@@ -148,24 +154,32 @@ struct HomeView: View {
                                 .navigationBarBackButtonHidden(true)
                             
                         } label : {
-//                            Image(systemName: "plus.circle")
-//                                .resizable()
-//                                .frame(width: 24, height: 24)
-                            Image(systemName: "dumbbell")
+                            Image(systemName: "dumbbell.fill")
                                 .resizable()
-                                .rotationEffect(.degrees(-37))
-                               // .frame(width: 24, height: 24)
+                                .aspectRatio(contentMode: .fill)      // << here !!
+                                .frame(width: 17, height: 17)
+                                .rotationEffect(.degrees(isRotating ?  0 : -37))
+                                .padding(5)
+
                         }
                     }
                     
                 }
+                .onAppear {
+                    let baseAnimation = Animation.easeInOut(duration: 1)
+                    let repeated = baseAnimation.repeatCount(3)
+                    
+                    withAnimation(repeated) {
+                        isRotating.toggle()
+                    }
+                }
             }
-               
-           
+            
+            
         }
         
-    
-       
+        
+        
     }
 }
 

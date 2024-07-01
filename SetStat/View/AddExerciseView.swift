@@ -60,9 +60,14 @@ struct AddExerciseView: View {
                     Button {
                         //database operation adding exerciseName to ExerciseName model
                         if (!exerciseName.isEmpty) {
-                            let newExeriseName = ExerciseName(name: exerciseName)
-                            modelContext.insert(newExeriseName)
-                            showNameInput.toggle()
+                            
+                            if (!exercisesNames.contains(where: { $0.name.lowercased() == exerciseName.lowercased() })) {
+                                let newExeriseName = ExerciseName(name: exerciseName)
+                                modelContext.insert(newExeriseName)
+                                showNameInput.toggle()
+                                }
+                            
+                           
                         }
                         
                     }label: {
