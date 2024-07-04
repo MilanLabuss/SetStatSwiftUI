@@ -12,7 +12,6 @@ struct AddWorkoutView: View {
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var router: Router
     
     @State private var workoutName: String = ""
     @State private var showExercieSheet = false
@@ -22,11 +21,13 @@ struct AddWorkoutView: View {
     //I will build this temporary workout object then write it to the db
     @State private var workout: Workout = Workout(id: UUID())
     
+    // var workout: Workout
+    
     @State private var showCancelAlert = false
     
     
     var body: some View {
-        NavigationStack(path: $router.path) {
+        NavigationStack() {
             VStack {
                 List {
                     Section(header: Text("Workout Details")) {
@@ -39,10 +40,16 @@ struct AddWorkoutView: View {
                     Section(header: Text("Exercises")) {
                         if let exercises =  workout.exercises {
                             ForEach(exercises){ exercise in
-                                NavigationLink(value: exercise) {
-                                    Text(exercise.exerciseName.name)
-                                        .padding(.top, 5)
-                                        .padding(.bottom, 5)
+                                NavigationLink {
+                                    
+                                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+                                        .navigationBarBackButtonHidden(true)
+                                    
+                                }
+                                label: {
+                                Text(exercise.exerciseName.name)
+                                    .padding(.top, 5)
+                                    .padding(.bottom, 5)
                                 }
                             }
                             .onDelete(perform: delete)
@@ -64,10 +71,10 @@ struct AddWorkoutView: View {
                     }
                     
                 }
-                .navigationDestination(for: Exercise.self) { exercise in
-                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-                        .navigationBarBackButtonHidden(true)
-                }
+                //                .navigationDestination(for: Exercise.self) { exercise in
+                //                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+                //                        .navigationBarBackButtonHidden(true)
+                //                }
                 .listStyle(.insetGrouped)
                 
             }
@@ -126,25 +133,25 @@ struct AddWorkoutView: View {
         } message: {
             Text("Are you sure you want to cancel?")
         }
-//        .onChange(of: workout.exercises) { oldExercises ,newExercises in
-//            guard let oldExercises = oldExercises, let newExercises = newExercises else {
-//                   return
-//               }
-//               
-//               // Convert arrays to sets for efficient difference calculation
-//               let oldSet = Set(oldExercises)
-//               let newSet = Set(newExercises)
-//               
-//               // Find exercises in newSet that are not in oldSet
-//               let addedExercises = Array(newSet.subtracting(oldSet))
-//               
-//               // Now you have the added exercises in addedExercises array
-//               for exercise in addedExercises {
-//                   // Perform your work with the added exercise here
-//                   print("Added exercise: \(exercise)")
-//               }
-//
-//                }
+        //        .onChange(of: workout.exercises) { oldExercises ,newExercises in
+        //            guard let oldExercises = oldExercises, let newExercises = newExercises else {
+        //                   return
+        //               }
+        //
+        //               // Convert arrays to sets for efficient difference calculation
+        //               let oldSet = Set(oldExercises)
+        //               let newSet = Set(newExercises)
+        //
+        //               // Find exercises in newSet that are not in oldSet
+        //               let addedExercises = Array(newSet.subtracting(oldSet))
+        //
+        //               // Now you have the added exercises in addedExercises array
+        //               for exercise in addedExercises {
+        //                   // Perform your work with the added exercise here
+        //                   print("Added exercise: \(exercise)")
+        //               }
+        //
+        //                }
         
         
         

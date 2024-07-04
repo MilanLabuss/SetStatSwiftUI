@@ -22,23 +22,15 @@ struct EditWorkoutView: View {
     
   
     //The Current workout that was clicked in the List
-    var workout: Workout
+
     
-    @State private var workoutName: String
-    @State private var workoutStartTime: Date
-    @State private var workoutEndTime: Date
-    
-    
-    init(workout: Workout) {
-        self.workout = workout
-        self.workoutName = workout.name ?? ""
-        self.workoutStartTime = workout.startTime ?? Date.now
-        self.workoutEndTime = workout.endTime ?? Date.now
-    }
+    let workout: Workout
+    @State private var workoutName: String = ""
+    @State private var workoutStartTime: Date = Date.now
+    @State private var workoutEndTime: Date = Date.now
     
     @State private var showExercieSheet = false
     
-  //  @State private var showCancelAlert = false
  
     var body: some View {
         VStack {
@@ -131,7 +123,12 @@ struct EditWorkoutView: View {
                 }
             }
         }
+        .onAppear {
+            workoutName = workout.name
+            workoutStartTime = workout.startTime
+            workoutEndTime = workout.endTime
         
+        }
         .sheet(isPresented: $showExercieSheet) {
             AddExerciseView(workout: workout)
                 .presentationDragIndicator(.visible)

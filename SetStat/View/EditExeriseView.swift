@@ -57,8 +57,6 @@ struct EditExeriseView: View {
                                     
                                     "circle"
                             )
-                            .foregroundStyle(set.isCompleted ? .blue : .black)
-                            .imageScale(.large)
                             .onTapGesture {
                                 if(set.reps != 0 && set.weight != 0) {
                                     set.isCompleted.toggle()
@@ -165,7 +163,7 @@ struct EditExeriseView: View {
                         .foregroundStyle(.blue)
                         .underline()
                 }
-                .id(UUID())
+                //.id(UUID())
                 
             }
         }
@@ -185,12 +183,16 @@ struct EditExeriseView: View {
     }
     func delete(at offsets: IndexSet) {
         sets.remove(atOffsets: offsets)
+        exercise.sets?.remove(atOffsets: offsets)
+        
+        //chatgpt i need to find this set in Exercise
+       
+        
     }
     func save() {
         //first inserting the sets into the Sets model
         for set in sets {
             if(set.isCompleted){
-                //    let newSet = set
                 modelContext.insert(set)
                 exercise.sets?.append(set)
                 print("\(exercise.sets!)")

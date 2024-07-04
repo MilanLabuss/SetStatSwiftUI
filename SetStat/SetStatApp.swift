@@ -10,14 +10,14 @@ import SwiftData
 
 @main
 struct SetStatApp: App {
-    @StateObject var router = Router()
+   // @StateObject var router = Router()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
         .modelContainer(for: Workout.self)
-        .environmentObject(router)
+       // .environmentObject(router)
         
     }
 }
