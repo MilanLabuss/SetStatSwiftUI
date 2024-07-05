@@ -25,7 +25,7 @@ struct EditExeriseView: View {
     @State private var showCancelAlert = false
     
     
-    
+    //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
     init(exercise: Exercise, sets: [Set]) {
         self.exercise = exercise
         if let newSets = exercise.sets {    //unwrapping the passed exercises sets
@@ -116,9 +116,13 @@ struct EditExeriseView: View {
                         .buttonStyle(.borderless)
                         }
                         
+                        
+                        
                     }
+                 
                     .onDelete(perform: delete)
                     .deleteDisabled(sets.count < 2) //making sure you have to have at least one Set
+                    
                     //End of List Items
                 }
                 //Adding a New Set to the Temporary Array
@@ -134,7 +138,7 @@ struct EditExeriseView: View {
                     }
                 }
             }
-            .listStyle(.insetGrouped)
+            .listStyle(.automatic)
             
             
         }

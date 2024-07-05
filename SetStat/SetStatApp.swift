@@ -20,4 +20,9 @@ struct SetStatApp: App {
        // .environmentObject(router)
         
     }
+    
+    //printing the location is written to so we can open it in Sqlite browser
+    init() {
+        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+    }
 }

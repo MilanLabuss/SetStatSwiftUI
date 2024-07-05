@@ -50,9 +50,23 @@ struct EditWorkoutView: View {
                                     .navigationBarBackButtonHidden(true)
                             } label: {
                                 
-                                Text(exercise.exerciseName.name)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 5)
+                                VStack(alignment:.leading) {
+                                    Text(exercise.exerciseName.name)
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 5)
+                                        .padding(.bottom, 5)
+                                        
+                                    
+                                    if let sets = exercise.sets {
+                                        Text("\(sets.count)x Sets")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(.gray)
+                                            
+                                            
+                                    }
+                                        
+                                    
+                                }
                             }
                         }
                         .onDelete(perform: delete)
@@ -76,7 +90,6 @@ struct EditWorkoutView: View {
                 }
                 
             }
-            
             .listStyle(.insetGrouped)
             
         }
