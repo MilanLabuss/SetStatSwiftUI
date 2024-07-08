@@ -91,10 +91,8 @@ struct AddExerciseView: View {
                 Text(exercisename.name)
             }
             
-            
+            //Done Button will add new exercise and dismiss the sheet
             Button {
-                //check If selection isnt empty than create an Exercise with this(selection) as the ExerciseName
-                //and dismiss this sheet
                 if(selection != nil) {
                     let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: Date.now)
                     
@@ -106,7 +104,7 @@ struct AddExerciseView: View {
                     }
                     
                    
-                   // router.path.append(newExercise)
+                  //  router.path.append(newExercise)
                     
                     dismiss()
                 }

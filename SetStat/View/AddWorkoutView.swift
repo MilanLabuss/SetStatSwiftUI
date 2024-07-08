@@ -27,59 +27,58 @@ struct AddWorkoutView: View {
     
     
     var body: some View {
-        NavigationStack() {
-            VStack {
-                List {
-                    Section(header: Text("Workout Details")) {
-                        TextField("Enter workout name",text: $workoutName)
-                        DatePicker("Start Time", selection: $workoutStartTime)
-                        DatePicker("End Time", selection: $workoutEndTime)
-                        
-                    }
+        VStack {
+            List {
+                Section(header: Text("Workout Details")) {
+                    TextField("Enter workout name",text: $workoutName)
+                    DatePicker("Start Time", selection: $workoutStartTime)
+                    DatePicker("End Time", selection: $workoutEndTime)
                     
-                    Section(header: Text("Exercises")) {
-                        if let exercises =  workout.exercises {
-                            ForEach(exercises){ exercise in
-                                NavigationLink {
-                                    
-                                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-                                        .navigationBarBackButtonHidden(true)
-                                    
-                                }
-                                label: {
+                }
+                
+                Section(header: Text("Exercises")) {
+                    if let exercises =  workout.exercises {
+                        ForEach(exercises){ exercise in
+                            NavigationLink {
+                                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+                                    .navigationBarBackButtonHidden(true)
+                            } label: {
                                 Text(exercise.exerciseName.name)
                                     .padding(.top, 5)
                                     .padding(.bottom, 5)
-                                }
                             }
-                            .onDelete(perform: delete)
-                        } else {
-                            Text("No Exericses Yet")
                         }
+                        .onDelete(perform: delete)
+                    } else {
+                        Text("No Exericses Yet")
                     }
-                    
-                    
-                    
-                    Section {
-                        Button {
-                            showExercieSheet = true
-                            
-                        } label: {
-                            Text("Add Exercise")
-                            
-                        }
-                    }
-                    
                 }
-                //                .navigationDestination(for: Exercise.self) { exercise in
-                //                    EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-                //                        .navigationBarBackButtonHidden(true)
-                //                }
-                .listStyle(.insetGrouped)
+                
+                
+                
+                Section {
+                    Button {
+                        showExercieSheet = true
+                        
+                    } label: {
+                        Text("Add Exercise")
+                        
+                    }
+                }
                 
             }
+//            .navigationDestination(for: Exercise.self) { exercise in
+//                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+//                    .navigationBarBackButtonHidden(true)
+//            }
+            
+            .listStyle(.insetGrouped)
+            
         }
-        
+//        .navigationDestination(for: Exercise.self) { exercise in
+//            EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+//                .navigationBarBackButtonHidden(true)
+//        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button{
