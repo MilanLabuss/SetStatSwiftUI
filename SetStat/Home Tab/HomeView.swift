@@ -17,11 +17,13 @@ struct HomeView: View {
     @State private var isRotating = false
     @State private var selectedDate: Date = Date.now
     
-    //@State private var sortOrder = SortDescriptor(\Workout.endTime, order: .reverse)
+   // @State private var sortOrder = SortDescriptor(\Workout.endTime, order: .reverse)
+    
+    
     
     
     static var fetchDescriptor: FetchDescriptor<Workout> {
-        let date = Date.now
+
         let descriptor = FetchDescriptor<Workout>(
             // predicate: #Predicate { $0.endTime == selectedDate },
             sortBy: [
@@ -37,31 +39,31 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            
-            
-            
-            Group {
-                if workouts.isEmpty {
-                    ContentUnavailableView {
-                        Label("No workouts yet", systemImage: "dumbbell.fill")
-                    } description: {
-                        Text("Tap the button below to get started")
-                    }
-                actions: {
-                    NavigationLink {
-                        AddWorkoutView()
-                        
-                    } label : {
-                        Text("Start Workout")
-                            .underline()
-                        
-                    }
-                }
-                }
+         
+         //   Group {
+               // if workouts.isEmpty {
+//                    ContentUnavailableView {
+//                        Label("No workouts yet", systemImage: "dumbbell.fill")
+//                    } description: {
+//                        Text("Tap the button below to get started")
+//                    }
+//                actions: {
+//                    NavigationLink {
+//                        AddWorkoutView()
+//                            .toolbar(.hidden, for: .tabBar)
+//                            .navigationBarBackButtonHidden(true)
+//                        
+//                    } label : {
+//                        Text("Start Workout")
+//                            .underline()
+//                        
+//                    }
+//                }
+                //}
                 
-                else {
+//                else {
                     List {
-                        Section(header: Text("Recent Workouts")) {
+                        Section(header: workouts.isEmpty ? Text("") : Text("Recent Workouts")) {
                             ForEach(workouts) { workout in
                                 NavigationLink {
                                     EditWorkoutView(workout: workout)
@@ -137,13 +139,33 @@ struct HomeView: View {
                         }
                         
                     } //end list
+                    .overlay {
+                        if workouts.isEmpty {
+                            ContentUnavailableView {
+                                Label("No workouts yet", systemImage: "dumbbell.fill")
+                            } description: {
+                                Text("Tap the button below to get started")
+                            }
+                        actions: {
+                                NavigationLink {
+                                    AddWorkoutView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                        .navigationBarBackButtonHidden(true)
+                                    
+                                } label : {
+                                    Text("Start Workout")
+                                        .underline()
+                                        }
+                             }
+                           }
+                        
+                        }
                     
                     
-                }
-            }
+                //}
+          //  } //end group
             
-            
-            // WorkoutListView(sort: sortOrder, selectedDate: selectedDate, showDuplicateButton: showDuplicateButton)
+           // WorkoutListView(sort: sortOrder, selectedDate: selectedDate, showDuplicateButton: showDuplicateButton)
             .navigationTitle("\(selectedDate,  format: .dateTime.month())")
             .background(Color.gray)
             .navigationBarTitleDisplayMode(.large)

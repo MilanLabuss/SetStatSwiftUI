@@ -19,10 +19,10 @@ struct ContentView: View {
                         .tabItem {
                         Label("Workout", systemImage: "dumbbell.fill")
                     }
-                    HistoryView()
-                        .tabItem {
-                            Label("Log", systemImage: "calendar")
-                        }
+//                    HistoryView()
+//                        .tabItem {
+//                            Label("Log", systemImage: "calendar")
+//                        }
                     StatsView()
                         .tabItem {
                             Label("Stats", systemImage: "chart.bar.xaxis.ascending")
