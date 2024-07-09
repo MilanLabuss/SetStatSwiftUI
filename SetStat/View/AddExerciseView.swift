@@ -89,7 +89,10 @@ struct AddExerciseView: View {
             
             List(exercisesNames,id: \.self, selection: $selection)  { exercisename in
                 Text(exercisename.name)
+                    
             }
+        
+            .animation(.easeIn(duration: 2), value: exercisesNames)
             
             //Done Button will add new exercise and dismiss the sheet
             Button {
@@ -100,7 +103,9 @@ struct AddExerciseView: View {
                     
                     //Unwrapping workout to also write to workout
                     if let workout = workout {
-                       workout.exercises?.append(newExercise)
+                       withAnimation {
+                           workout.exercises?.append(newExercise)
+                       }
                     }
                     
                    

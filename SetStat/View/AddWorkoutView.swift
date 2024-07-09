@@ -37,7 +37,7 @@ struct AddWorkoutView: View {
                 }
                 
                 Section(header: Text("Exercises")) {
-                    if let exercises =  workout.exercises {
+                    if let exercises =  workout.exercises?.sorted(by: { $0.date < $1.date }) {
                         ForEach(exercises){ exercise in
                             NavigationLink {
                                 EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
@@ -54,11 +54,9 @@ struct AddWorkoutView: View {
                                         Text("\(sets.count)x Sets")
                                             .font(.system(size: 13))
                                             .foregroundStyle(.gray)
-                                            
+                                    
                                             
                                     }
-                                        
-                                    
                                 }
                             }
                         }
@@ -67,9 +65,7 @@ struct AddWorkoutView: View {
                         Text("No Exericses Yet")
                     }
                 }
-                
-                
-                
+
                 Section {
                     Button {
                         showExercieSheet = true
@@ -81,18 +77,10 @@ struct AddWorkoutView: View {
                 }
                 
             }
-//            .navigationDestination(for: Exercise.self) { exercise in
-//                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-//                    .navigationBarBackButtonHidden(true)
-//            }
             .animation(.easeIn(duration: 5), value: workout.exercises)
             .listStyle(.insetGrouped)
             
         }
-//        .navigationDestination(for: Exercise.self) { exercise in
-//            EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-//                .navigationBarBackButtonHidden(true)
-//        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button{
@@ -137,43 +125,31 @@ struct AddWorkoutView: View {
         .alert("Cancel", isPresented: $showCancelAlert) {
             Button("Yes", role: .destructive) {
                 //Navigate back
+                deleteWorkout() //if a exercise was added on this screen we need to delete it when cancelling the workout creation
                 dismiss()
             }
             Button("No", role: .cancel) {
-                
+                //No will just dimiss the view
             }
             
         } message: {
             Text("Are you sure you want to cancel?")
         }
-        //        .onChange(of: workout.exercises) { oldExercises ,newExercises in
-        //            guard let oldExercises = oldExercises, let newExercises = newExercises else {
-        //                   return
-        //               }
-        //
-        //               // Convert arrays to sets for efficient difference calculation
-        //               let oldSet = Set(oldExercises)
-        //               let newSet = Set(newExercises)
-        //
-        //               // Find exercises in newSet that are not in oldSet
-        //               let addedExercises = Array(newSet.subtracting(oldSet))
-        //
-        //               // Now you have the added exercises in addedExercises array
-        //               for exercise in addedExercises {
-        //                   // Perform your work with the added exercise here
-        //                   print("Added exercise: \(exercise)")
-        //               }
-        //
-        //                }
-        
-        
-        
-        
-        
-        
-        
         
     }//End of Body
+    
+    
+    
+    // Function to delete the workout and its exercises
+    func deleteWorkout() {
+        if let exercises = workout.exercises {
+            for exercise in exercises {
+                modelContext.delete(exercise)
+            }
+        }
+        modelContext.delete(workout)
+    }
+    
     //deleteing exercise Straight from Model context because we are working directly with a query here
     func delete(at offsets: IndexSet) {
         workout.exercises?.remove(atOffsets: offsets)

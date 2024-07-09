@@ -43,7 +43,7 @@ struct EditWorkoutView: View {
                     
                 }
                 Section(header: Text("Exercises")) {
-                    if let exercises =  workout.exercises {
+                    if let exercises =  workout.exercises?.sorted(by: { $0.date < $1.date }) {
                         ForEach(exercises){ exercise in
                             NavigationLink {
                                 EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
