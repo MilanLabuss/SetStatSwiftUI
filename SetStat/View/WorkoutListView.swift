@@ -13,7 +13,7 @@ struct WorkoutListView: View {
     
     @Environment(\.modelContext) var modelContext
     
-    @Query var workouts: [Workout]
+    @Query(animation: .easeIn) var workouts: [Workout]
     var selectedDate : Date
     
     var showDuplicateButton: Bool
@@ -39,7 +39,7 @@ struct WorkoutListView: View {
     var body: some View {
         
         List {
-            Section(header: Text("Recent Workouts")) {
+            Section(header: workouts.isEmpty ? Text("") : Text("Workouts")) {
                 ForEach(workouts) { workout in
                     NavigationLink(value: workout) {
                         HStack(spacing: 19)
@@ -49,7 +49,7 @@ struct WorkoutListView: View {
                                 Button {
                                     //the workout copy method uses the exercises copy method to copy all exercises which itself does the same for its sets
                                     let newWorkout = workout.copy()
-                                    modelContext.insert(newWorkout)
+                                        modelContext.insert(newWorkout)
                                     //showDuplicateButton.toggle()
                                     
                                 }
@@ -111,7 +111,31 @@ struct WorkoutListView: View {
                 
             }
             
-        } //end list\
+        }
+        .animation(.spring(duration: 3), value: workouts)
+        //end list
+//        .overlay {
+//            if workouts.isEmpty {
+//                ContentUnavailableView {
+//                    Label("No workouts yet", systemImage: "dumbbell.fill")
+//                } description: {
+//                    Text("Tap the button below to get started")
+//                }
+//            actions: {
+//                    NavigationLink {
+//                        AddWorkoutView()
+//                            .toolbar(.hidden, for: .tabBar)
+//                            .navigationBarBackButtonHidden(true)
+//
+//                    } label : {
+//                        Text("Start Workout")
+//                            .font(.headline)
+//                            .underline()
+//                            }
+//                 }
+//               }
+//
+//            }
 
         
         

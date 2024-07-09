@@ -43,9 +43,23 @@ struct AddWorkoutView: View {
                                 EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
                                     .navigationBarBackButtonHidden(true)
                             } label: {
-                                Text(exercise.exerciseName.name)
-                                    .padding(.top, 5)
-                                    .padding(.bottom, 5)
+                                VStack(alignment:.leading) {
+                                    Text(exercise.exerciseName.name)
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 5)
+                                        .padding(.bottom, 5)
+                                        
+                                    
+                                    if let sets = exercise.sets {
+                                        Text("\(sets.count)x Sets")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(.gray)
+                                            
+                                            
+                                    }
+                                        
+                                    
+                                }
                             }
                         }
                         .onDelete(perform: delete)
@@ -71,7 +85,7 @@ struct AddWorkoutView: View {
 //                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
 //                    .navigationBarBackButtonHidden(true)
 //            }
-            
+            .animation(.easeIn(duration: 5), value: workout.exercises)
             .listStyle(.insetGrouped)
             
         }

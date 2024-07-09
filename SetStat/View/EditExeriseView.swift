@@ -18,7 +18,7 @@ struct EditExeriseView: View {
     var exercise: Exercise
     
     //The user will temporarily write to this sets array than after he is done we will save it to exercises
-    @State private var sets: [Set]
+    @State var sets: [Set]
     
     
     @State private var showSheet = false
@@ -26,22 +26,22 @@ struct EditExeriseView: View {
     
     
     //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
-    init(exercise: Exercise, sets: [Set]) {
-        self.exercise = exercise
-        if let newSets = exercise.sets {    //unwrapping the passed exercises sets
-            if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
-                self.sets = newSets
-            }
-            else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
-                self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
-            }
-            
-        }
-        //The optional exercise sets array was empty so load default
-        else {
-            self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
-        }
-    }
+//    init(exercise: Exercise, sets: [Set]) {
+//        self.exercise = exercise
+//        if let newSets = exercise.sets {    //unwrapping the passed exercises sets
+//            if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
+//                self.sets = newSets
+//            }
+//            else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
+//                self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+//            }
+//            
+//        }
+//        //The optional exercise sets array was empty so load default
+//        else {
+//            self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+//        }
+//    }
     
     
     var body: some View {
@@ -169,6 +169,23 @@ struct EditExeriseView: View {
                 }
                 //.id(UUID())
                 
+            }
+        }
+        .onAppear {
+            //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
+           // exercise = exercise
+            if let newSets = exercise.sets {    //unwrapping the passed exercises sets
+                if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
+                    sets = newSets
+                }
+                else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
+                    sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+                }
+                
+            }
+            //The optional exercise sets array was empty so load default
+            else {
+                sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
             }
         }
         .alert("Cancel", isPresented: $showCancelAlert) {

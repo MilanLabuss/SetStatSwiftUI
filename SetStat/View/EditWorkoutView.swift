@@ -90,6 +90,7 @@ struct EditWorkoutView: View {
                 }
                 
             }
+            .animation(.easeIn(duration: 5), value: workout.exercises)
             .listStyle(.insetGrouped)
             
         }
