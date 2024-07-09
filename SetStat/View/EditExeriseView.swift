@@ -26,22 +26,22 @@ struct EditExeriseView: View {
     
     
     //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
-//    init(exercise: Exercise, sets: [Set]) {
-//        self.exercise = exercise
-//        if let newSets = exercise.sets {    //unwrapping the passed exercises sets
-//            if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
-//                self.sets = newSets
-//            }
-//            else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
-//                self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
-//            }
-//            
-//        }
-//        //The optional exercise sets array was empty so load default
-//        else {
-//            self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
-//        }
-//    }
+    //    init(exercise: Exercise, sets: [Set]) {
+    //        self.exercise = exercise
+    //        if let newSets = exercise.sets {    //unwrapping the passed exercises sets
+    //            if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
+    //                self.sets = newSets
+    //            }
+    //            else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
+    //                self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+    //            }
+    //
+    //        }
+    //        //The optional exercise sets array was empty so load default
+    //        else {
+    //            self.sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+    //        }
+    //    }
     
     
     var body: some View {
@@ -51,19 +51,27 @@ struct EditExeriseView: View {
                     ForEach($sets){ $set  in
                         HStack(spacing: 10) {
                             //The CheckMark Button
-                            Image(
-                                systemName: set.isCompleted ?
-                                "checkmark.circle" :
-                                    
-                                    "circle"
-                            )
-                            .onTapGesture {
-                                if(set.reps != 0 && set.weight != 0) {
-                                    set.isCompleted.toggle()
+                            //                            Image(
+                            //                                systemName: set.isCompleted ?
+                            //                                "checkmark.circle" :
+                            //
+                            //                                    "circle"
+                            //                            )
+                            Group {
+                                if(set.isCompleted) {
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundStyle(.green)
+                                } else {
+                                    Image(systemName: "circle")
                                 }
-                               
-                                
                             }
+                                .onTapGesture {
+                                    if(set.reps != 0 && set.weight != 0) {
+                                        set.isCompleted.toggle()
+                                    }
+                                    
+                                    
+                                }
                             //Enter Reps and Weight
                             HStack {
                                 VStack(alignment: .leading){
@@ -73,9 +81,6 @@ struct EditExeriseView: View {
                                     
                                     TextField("\(set.weight)", value: $set.weight, formatter: NumberFormatter())
                                         .keyboardType(.decimalPad)
-                                    
-                                    
-                                    
                                 }
                                 .frame(width: 45)
                                 .padding(.leading)
@@ -119,7 +124,7 @@ struct EditExeriseView: View {
                         
                         
                     }
-                 
+                    
                     .onDelete(perform: delete)
                     .deleteDisabled(sets.count < 2) //making sure you have to have at least one Set
                     
@@ -173,7 +178,7 @@ struct EditExeriseView: View {
         }
         .onAppear {
             //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
-           // exercise = exercise
+            // exercise = exercise
             if let newSets = exercise.sets {    //unwrapping the passed exercises sets
                 if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
                     sets = newSets
@@ -207,7 +212,7 @@ struct EditExeriseView: View {
         exercise.sets?.remove(atOffsets: offsets)
         
         //chatgpt i need to find this set in Exercise
-       
+        
         
     }
     func save() {

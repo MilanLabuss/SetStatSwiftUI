@@ -87,12 +87,17 @@ struct AddExerciseView: View {
                 
             }
             
-            List(exercisesNames,id: \.self, selection: $selection)  { exercisename in
-                Text(exercisename.name)
+            List(selection: $selection){
+              
+                ForEach(exercisesNames, id: \.self) { exercisename in
+                        Text(exercisename.name)
+                    }
+                    .onDelete(perform: delete)
+                
                     
             }
-        
-            .animation(.easeIn(duration: 2), value: exercisesNames)
+            //.animation(.easeIn(duration: 2), value: exercisesNames)
+
             
             //Done Button will add new exercise and dismiss the sheet
             Button {
@@ -137,7 +142,13 @@ struct AddExerciseView: View {
         }
         
         
+        
     }
-    
+    func delete(at offsets: IndexSet) {
+        for offset in offsets {
+            let exerciseName = exercisesNames[offset]
+            modelContext.delete(exerciseName)
+        }
+    }
 }
 
