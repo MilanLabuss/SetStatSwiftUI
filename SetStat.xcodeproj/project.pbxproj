@@ -26,8 +26,8 @@
 		B91FE9D52C2F10E100DAA15E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9D42C2F10E100DAA15E /* HomeView.swift */; };
 		B91FE9DA2C2F118300DAA15E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9D92C2F118300DAA15E /* HistoryView.swift */; };
 		B91FE9DD2C2F11BA00DAA15E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */; };
-		B91FE9DF2C30262A00DAA15E /* PathStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9DE2C30262A00DAA15E /* PathStore.swift */; };
 		B91FE9E12C31704C00DAA15E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9E02C31704C00DAA15E /* Router.swift */; };
+		B9A7D4C92C3E9B5B00D9A50C /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +70,6 @@
 		B91FE9D42C2F10E100DAA15E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B91FE9D92C2F118300DAA15E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-		B91FE9DE2C30262A00DAA15E /* PathStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathStore.swift; sourceTree = "<group>"; };
 		B91FE9E02C31704C00DAA15E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9A7D4C92C3E9B5B00D9A50C /* NavigationTransitions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +188,6 @@
 		B91FE9D12C2EA67600DAA15E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B91FE9DE2C30262A00DAA15E /* PathStore.swift */,
 				B91FE9E02C31704C00DAA15E /* Router.swift */,
 			);
 			path = Services;
@@ -241,6 +240,9 @@
 			dependencies = (
 			);
 			name = SetStat;
+			packageProductDependencies = (
+				B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */,
+			);
 			productName = SetStat;
 			productReference = B90C9FB82C19F42900EE25F2 /* SetStat.app */;
 			productType = "com.apple.product-type.application";
@@ -313,6 +315,9 @@
 				Base,
 			);
 			mainGroup = B90C9FAF2C19F42900EE25F2;
+			packageReferences = (
+				B9A7D4C72C3E9B5B00D9A50C /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */,
+			);
 			productRefGroup = B90C9FB92C19F42900EE25F2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -360,7 +365,6 @@
 				B912D1992C381E9300AB07CA /* WorkoutListView.swift in Sources */,
 				B90C9FF02C19FA1200EE25F2 /* AddWorkoutView.swift in Sources */,
 				B90C9FEB2C19F5B900EE25F2 /* Set.swift in Sources */,
-				B91FE9DF2C30262A00DAA15E /* PathStore.swift in Sources */,
 				B90C9FBE2C19F42900EE25F2 /* ContentView.swift in Sources */,
 				B90C9FBC2C19F42900EE25F2 /* SetStatApp.swift in Sources */,
 				B91FE9E12C31704C00DAA15E /* Router.swift in Sources */,
@@ -700,6 +704,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B9A7D4C72C3E9B5B00D9A50C /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/davdroman/swiftui-navigation-transitions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9A7D4C72C3E9B5B00D9A50C /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */;
+			productName = NavigationTransitions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B90C9FB02C19F42900EE25F2 /* Project object */;
 }

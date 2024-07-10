@@ -19,15 +19,21 @@ struct EditWorkoutView: View {
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
-    
-  
-    //The Current workout that was clicked in the List
-
-    
+ 
     let workout: Workout
+    
     @State private var workoutName: String = ""
     @State private var workoutStartTime: Date = Date.now
     @State private var workoutEndTime: Date = Date.now
+    
+    //controlling what the endTime can be set to(it cant be lower than startTime)
+//    var dateClosedRangeEnd: ClosedRange<Date> {
+//        let min = workoutStartTime
+//        let max = Date.now
+//        return min...max
+//    }
+
+    
     
     @State private var showExercieSheet = false
     
@@ -36,10 +42,24 @@ struct EditWorkoutView: View {
         VStack {
             List {
                 Section(header: Text("Workout Details")) {
-                    
                     TextField("Enter workout name",text: $workoutName)
                     DatePicker("Start Time", selection: $workoutStartTime)
-                    DatePicker("End Time", selection: $workoutEndTime)
+                        .onChange(of: workoutStartTime) {
+                            if(workoutStartTime > workoutEndTime) {
+                                workoutEndTime = workoutStartTime
+                            }
+                         
+                        }
+                    
+                    DatePicker(
+                        "End Time",selection: $workoutEndTime)
+                    .onChange(of: workoutEndTime) { //not allowing endTime to be lower than StartTime
+                        if(workoutEndTime < workoutStartTime) {
+                            workoutStartTime = workoutEndTime
+                        }
+                     
+                    }
+                
                     
                 }
                 Section(header: Text("Exercises")) {
@@ -76,15 +96,13 @@ struct EditWorkoutView: View {
                    
                     //.onDelete(perform: delete)
                 }
-                
-                
-                
                 Section {
                     Button {
                         showExercieSheet = true
                         
                     } label: {
                         Text("Add Exercise")
+                            .underline()
                         
                     }
                 }

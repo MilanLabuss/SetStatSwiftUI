@@ -42,15 +42,13 @@ struct WorkoutListView: View {
             Section(header: workouts.isEmpty ? Text("") : Text("Workouts")) {
                 ForEach(workouts) { workout in
                     NavigationLink(value: workout) {
-                        HStack(spacing: 19)
-                        {
+                        HStack(spacing: 19) {
                             
                             if showDuplicateButton {
                                 Button {
                                     //the workout copy method uses the exercises copy method to copy all exercises which itself does the same for its sets
                                     let newWorkout = workout.copy()
                                         modelContext.insert(newWorkout)
-                                    //showDuplicateButton.toggle()
                                     
                                 }
                             label: {
@@ -112,34 +110,7 @@ struct WorkoutListView: View {
             }
             
         }
-        .animation(.spring(duration: 3), value: workouts)
-        //end list
-//        .overlay {
-//            if workouts.isEmpty {
-//                ContentUnavailableView {
-//                    Label("No workouts yet", systemImage: "dumbbell.fill")
-//                } description: {
-//                    Text("Tap the button below to get started")
-//                }
-//            actions: {
-//                    NavigationLink {
-//                        AddWorkoutView()
-//                            .toolbar(.hidden, for: .tabBar)
-//                            .navigationBarBackButtonHidden(true)
-//
-//                    } label : {
-//                        Text("Start Workout")
-//                            .font(.headline)
-//                            .underline()
-//                            }
-//                 }
-//               }
-//
-//            }
-
-        
-        
-        
+        //.animation(.spring(duration: 3), value: workouts)
         
     }
     func delete(at offsets: IndexSet) {

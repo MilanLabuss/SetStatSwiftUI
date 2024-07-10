@@ -59,10 +59,13 @@ struct EditExeriseView: View {
                             //                            )
                             Group {
                                 if(set.isCompleted) {
-                                    Image(systemName: "checkmark.circle")
-                                        .foregroundStyle(.green)
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green) // Using the custom color
+                                        .font(.system(size: 22)) // Adjust the size here
+                                    
                                 } else {
                                     Image(systemName: "circle")
+                                        .font(.system(size: 22)) // Adjust the size here
                                 }
                             }
                                 .onTapGesture {
