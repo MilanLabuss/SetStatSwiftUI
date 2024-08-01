@@ -7,10 +7,11 @@
 
 import SwiftUI
 import SwiftData
+import Inject
 
 
 struct ContentView: View {
-    
+    @ObserveInjection var inject
     
     var body: some View {
             TabView {
@@ -32,6 +33,7 @@ struct ContentView: View {
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarColorScheme(.dark, for: .tabBar)
             }
+            .enableInjection()
         
 
     }

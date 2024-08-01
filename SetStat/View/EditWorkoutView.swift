@@ -26,14 +26,7 @@ struct EditWorkoutView: View {
     @State private var workoutStartTime: Date = Date.now
     @State private var workoutEndTime: Date = Date.now
     
-    //controlling what the endTime can be set to(it cant be lower than startTime)
-//    var dateClosedRangeEnd: ClosedRange<Date> {
-//        let min = workoutStartTime
-//        let max = Date.now
-//        return min...max
-//    }
 
-    
     
     @State private var showExercieSheet = false
     
@@ -121,6 +114,14 @@ struct EditWorkoutView: View {
                         workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
+                 
+                        // Update each exercise's date to the workout's end time
+                        if let exercises = workout.exercises {
+                              for exercise in exercises {
+                                     exercise.date = workoutEndTime
+                               }
+                        }
+ 
                         dismiss()
                     }
                 }label: {
@@ -142,6 +143,14 @@ struct EditWorkoutView: View {
                         workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
+                        
+                        // Update each exercise's date to the workout's end time
+                        if let exercises = workout.exercises {
+                              for exercise in exercises {
+                                     exercise.date = workoutEndTime
+                               }
+                        }
+                        
                         dismiss()
                         
                     }

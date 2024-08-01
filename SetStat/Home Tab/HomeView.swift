@@ -16,6 +16,7 @@ struct HomeView: View {
     @EnvironmentObject var router: Router
     @Environment(\.modelContext) var modelContext
     @State private var showDuplicateButton = false
+    @State private var showStatsButton = false
     @State private var isRotating = false
     @State private var selectedDate: Date = Date.now
     
@@ -24,12 +25,12 @@ struct HomeView: View {
       
     var body: some View {
         NavigationStack(path: $router.path) {
-            WorkoutListView(sort: sortOrder, selectedDate: selectedDate, showDuplicateButton: showDuplicateButton)
-            .navigationTitle("\(selectedDate,  format: .dateTime.month())")
-            .navigationDestination(for: Workout.self) { workout in
-                EditWorkoutView(workout: workout)
-                    .toolbar(.hidden, for: .tabBar)
-                    .navigationBarBackButtonHidden(true)
+            WorkoutListView(sort: sortOrder, selectedDate: selectedDate, showDuplicateButton: showDuplicateButton, showStatsButton: showStatsButton)
+                .navigationTitle("\(selectedDate,  format: .dateTime.month())")
+                .navigationDestination(for: Workout.self) { workout in
+                    EditWorkoutView(workout: workout)
+                        .toolbar(.hidden, for: .tabBar)
+                        .navigationBarBackButtonHidden(true)
             }
 
             .overlay {
@@ -57,8 +58,41 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(showDuplicateButton ? "Done" : "Repeat") {
-                        showDuplicateButton.toggle()
+                    HStack(spacing: 10) {
+                      // Button(showDuplicateButton ? "Done" : "Repeat")
+                        Button {
+                            
+                            showDuplicateButton.toggle()
+                            if(showStatsButton == true) {
+                                showStatsButton.toggle()
+                            }
+                        } label: {
+                            if(showDuplicateButton == false) {
+                                Image(systemName: "plus.rectangle.on.rectangle")
+                            }
+                            else {
+                                Text("Done")
+                                    .underline()
+                            }
+                            
+                        }
+                        
+                        Button {
+                            showStatsButton.toggle()
+                            if(showDuplicateButton == true) {
+                                showDuplicateButton.toggle()
+                            }
+                        } label: {
+                            if(showStatsButton == false) {
+                                Image(systemName: "chart.bar.xaxis.ascending")
+                            }
+                            else {
+                                Text("Done")
+                                    .underline()
+                            }
+                       
+                        }
+                        
                     }
                 }
                 ToolbarItem(placement: .principal) {
@@ -83,19 +117,22 @@ struct HomeView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink() {
-                        AddWorkoutView()
-                            .toolbar(.hidden, for: .tabBar)
-                            .navigationBarBackButtonHidden(true)
-                    } label : {
-                        Image(systemName: "dumbbell.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)      // << here !!
-                            .frame(width: 17, height: 17)
-                            .rotationEffect(.degrees(isRotating ?  -37 : 0))
-                            .padding(5)
-                        
-                    }
+                  
+                       
+                        NavigationLink() {
+                            AddWorkoutView()
+                                .toolbar(.hidden, for: .tabBar)
+                                .navigationBarBackButtonHidden(true)
+                        } label : {
+                            Image(systemName: "dumbbell.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)      // << here !!
+                                .frame(width: 16, height: 16)
+                                .rotationEffect(.degrees(isRotating ?  -37 : 0))
+                                .padding(5)
+                            
+                        }
+                    
                     
                 }
                 

@@ -1,6 +1,15 @@
 {
-  "originHash" : "78784ed9c1c18dee007f91a9a5bf15f8f13d038b2287d81dad092b5fa7e64613",
+  "originHash" : "93a8e3c6ed8b9897d6539e18814604101a91539c3f206f8aa0e12a5e1dc51bbd",
   "pins" : [
+    {
+      "identity" : "inject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzysztofzablocki/Inject.git",
+      "state" : {
+        "revision" : "728c56639ecb3df441d51d5bc6747329afabcfc9",
+        "version" : "1.5.2"
+      }
+    },
     {
       "identity" : "swiftui-introspect",
       "kind" : "remoteSourceControl",

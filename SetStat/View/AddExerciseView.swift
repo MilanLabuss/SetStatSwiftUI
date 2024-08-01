@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 
-//This will be Presented as a Sheet
+//This will be Presented as a Sheet to select an Exercise Name to Create an Exercise
 struct AddExerciseView: View {
     @Environment(\.modelContext) var modelContext
     @Query var exercisesNames: [ExerciseName]
@@ -25,8 +25,6 @@ struct AddExerciseView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        
-        
         VStack {
             HStack{
                 Spacer()
@@ -43,6 +41,7 @@ struct AddExerciseView: View {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 24, height: 24)
+                
                     
                 }
                 .padding(28)
@@ -52,6 +51,12 @@ struct AddExerciseView: View {
             if(showNameInput == true) {
                 HStack{
                     TextField("Enter Exercise Name", text: $exerciseName)
+                        .onChange(of: exerciseName) {
+                                          // Limit the text to 26 characters
+                                          if exerciseName.count > 26 {
+                                              exerciseName = String(exerciseName.prefix(26))
+                                          }
+                                      }
                         .frame(height: 32)
                         .textFieldStyle(.roundedBorder)
                     
@@ -67,7 +72,6 @@ struct AddExerciseView: View {
                                 showNameInput.toggle()
                                 }
                             
-                           
                         }
                         
                     }label: {
@@ -102,15 +106,19 @@ struct AddExerciseView: View {
             //Done Button will add new exercise and dismiss the sheet
             Button {
                 if(selection != nil) {
-                    let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: Date.now)
                     
+                    //The Date needs to match the Workouts Date
+                    if let workout = workout {
+                        let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: workout.endTime)
+
                     modelContext.insert(newExercise)
                     
                     //Unwrapping workout to also write to workout
-                    if let workout = workout {
+                   // if let workout = workout {
                        withAnimation {
                            workout.exercises?.append(newExercise)
                        }
+                    
                     }
                     
                    

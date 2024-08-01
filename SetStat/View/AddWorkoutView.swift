@@ -21,12 +21,7 @@ struct AddWorkoutView: View {
     //I will build this temporary workout object then write it to the db
     @State private var workout: Workout = Workout(id: UUID())
     
-    //controlling what the endTime can be set to(it cant be lower than startTime)
-    var dateClosedRange: ClosedRange<Date> {
-        let min = workoutStartTime
-        let max = Date.now
-        return min...max
-    }
+
     
     // var workout: Workout
     
@@ -39,11 +34,21 @@ struct AddWorkoutView: View {
                 Section(header: Text("Workout Details")) {
                     TextField("Enter workout name",text: $workoutName)
                     DatePicker("Start Time", selection: $workoutStartTime)
+                        .onChange(of: workoutStartTime) {
+                            if(workoutStartTime > workoutEndTime) {
+                                workoutEndTime = workoutStartTime
+                            }
+                         
+                        }
+                    
                     DatePicker(
-                        "End Time",
-                        selection: $workoutEndTime,
-                        in: dateClosedRange
-                    )
+                        "End Time",selection: $workoutEndTime)
+                    .onChange(of: workoutEndTime) { //not allowing endTime to be lower than StartTime
+                        if(workoutEndTime < workoutStartTime) {
+                            workoutStartTime = workoutEndTime
+                        }
+                     
+                    }
                     
                 }
                 
@@ -115,6 +120,16 @@ struct AddWorkoutView: View {
                         workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
                         modelContext.insert(workout)
+                        
+                        // Update each exercise's date to the workout's end time
+                        if let exercises = workout.exercises {
+                              for exercise in exercises {
+                                     exercise.date = workoutEndTime
+                               }
+                        }
+                        
+                        
+                        
                         dismiss()
                     }
                     

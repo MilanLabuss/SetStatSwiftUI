@@ -10,20 +10,36 @@ import SwiftData
 
 @main
 struct SetStatApp: App {
+    var container: ModelContainer
     @StateObject var router = Router()
+    
+    
+    init() {
+        @AppStorage("firstTime") var firstTime = true
+        do {
+            let schema = Schema([Workout.self, Exercise.self, Set.self, ExerciseName.self])
+            container = try ModelContainer(for: schema, configurations: [])
+            
+            //now to prefill with Dummy Data
+            if(firstTime) {
+                ExerciseName.defaults.forEach { container.mainContext.insert($0) }
+                firstTime = false
+            }
+          
+    
+        } catch {
+            fatalError("Failed to configure SwiftData container.")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(router)
         }
-        .modelContainer(for: Workout.self)
-       
-        
+        .modelContainer(container)
+               
     }
     
-    //printing the location is written to so we can open it in Sqlite browser
-    init() {
-        print(URL.applicationSupportDirectory.path(percentEncoded: false))
-    }
+
 }

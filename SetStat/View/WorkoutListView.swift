@@ -8,6 +8,8 @@
 import SwiftUI
 import SwiftData
 
+
+//Will display a list of all workouts for the month of the passed down selectedDate
 struct WorkoutListView: View {
     
     
@@ -17,9 +19,14 @@ struct WorkoutListView: View {
     var selectedDate : Date
     
     var showDuplicateButton: Bool
+    var showStatsButton: Bool
     
-    init(sort: SortDescriptor<Workout>, selectedDate: Date, showDuplicateButton: Bool) {
+    @State var selectedWorkout: Workout?
+    
+    //initialiser will filter the query to apply a predicate showing only workouts from this month
+    init(sort: SortDescriptor<Workout>, selectedDate: Date, showDuplicateButton: Bool, showStatsButton: Bool) {
         self.showDuplicateButton = showDuplicateButton
+        self.showStatsButton = showStatsButton
         self.selectedDate = selectedDate
         let calendar = Calendar.current
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: selectedDate))!
@@ -28,12 +35,15 @@ struct WorkoutListView: View {
         components.second = -1
         let endOfMonth = calendar.date(byAdding: components, to: startOfMonth)!
         
+        //Predicate for getting only the Workouts of the month of the SelectedDate
         let predicate = #Predicate<Workout> {
             $0.endTime >= startOfMonth && $0.endTime < endOfMonth
         }
         
         _workouts = Query(filter: predicate,sort: [sort])
     }
+    
+    
     
     
     var body: some View {
@@ -48,11 +58,22 @@ struct WorkoutListView: View {
                                 Button {
                                     //the workout copy method uses the exercises copy method to copy all exercises which itself does the same for its sets
                                     let newWorkout = workout.copy()
-                                        modelContext.insert(newWorkout)
+                                    modelContext.insert(newWorkout)
                                     
                                 }
                             label: {
                                 Image(systemName: "plus.rectangle.on.rectangle")
+                            }
+                            .buttonStyle(.borderless)
+                            }
+                            
+                            
+                            if showStatsButton {
+                                Button {
+                                  selectedWorkout = workout
+                                }
+                            label: {
+                                Image(systemName: "chart.bar.xaxis")
                             }
                             .buttonStyle(.borderless)
                             }
@@ -101,7 +122,7 @@ struct WorkoutListView: View {
                                 
                             }
                         }
-                    }
+                    } //End NavLink
                     
                     
                 }
@@ -110,7 +131,18 @@ struct WorkoutListView: View {
             }
             
         }
+//        .popover(item: $selectedWorkout) { workout in  // <-- here
+//            WorkoutDetailView(workout: workout)
+//            }
+        .fullScreenCover(item: $selectedWorkout) { workout in
+            WorkoutDetailView(workout: workout)
+        }
         //.animation(.spring(duration: 3), value: workouts)
+//        .sheet(isPresented: $selectedWorkout) {
+//            WorkoutDetailView(workout: workout)
+//                .presentationDetents([.medium, .large])
+//                .presentationContentInteraction(.scrolls)
+//        }
         
     }
     func delete(at offsets: IndexSet) {
