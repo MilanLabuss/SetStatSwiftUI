@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 
+//Just Storing the NavigationPath Globally
 class Router: ObservableObject {
     @Published var path = NavigationPath()
 
