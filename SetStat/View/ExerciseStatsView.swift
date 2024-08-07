@@ -76,8 +76,9 @@ struct ExerciseStatsView: View {
         var selectedDate = Date.now
         let calendar = Calendar.current
         // Loop to go back 12 months and find the best Set of each 30 day Period
+      
         
-        for _ in 0..<8 {
+        for i in 0..<10 {
             
             let startPeriod = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: selectedDate))!
             
@@ -122,8 +123,7 @@ struct ExerciseStatsView: View {
             let dateComponents = DateComponents(year: year, month: month, day: day)
             let date = calendar.date(from: dateComponents)!
             
-            
-             let isMaxWeight = (dataType == .MaxWeight)
+
             //chatgpt now take bestWeightOfPeriod.weight and .reps and make it into a one rep max vairable
             let oneRepMax = calculateOneRepMax(weight: Double(bestSetOfPeriod.weight), reps: bestSetOfPeriod.reps)
                         
@@ -131,7 +131,7 @@ struct ExerciseStatsView: View {
             if dateState == .weeks {
                 
                 //ChatGpt make a bool here that is true if dataType is MaxWeight
-                if(bestSetOfPeriod.weight != 0) {
+                if(bestSetOfPeriod.weight != 0 && i < 8) {  //allow only first 7 records
                     bestWeights.append(BestWeights(date: date, maxWeight: dataType == .MaxWeight ? bestSetOfPeriod.weight : Int(oneRepMax)))
                 }
                 
@@ -203,12 +203,12 @@ struct ExerciseStatsView: View {
                         Image(systemName: "chevron.down")
                             .font(.system(size: 14))  // Make the image smaller
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
+                   // .padding(.horizontal)
+                    //.padding(.vertical, 8)
+                   // .background(Color.gray.opacity(0.2))
+                    //.cornerRadius(8)
                 }
-                .frame(width: 120)
+                .frame(width: 140)
                 
                 Spacer()
                 
@@ -224,76 +224,75 @@ struct ExerciseStatsView: View {
                 .cornerRadius(8)
                 
             }
-            
-            //                    HStack{
-            //                        //chatgpt make an picker here that uses my Enum and is binded to dateState
-            //                        Picker("View Mode", selection: $dateState) {
-            //                             ForEach(DateState.allCases, id: \.self) { mode in
-            //                                 Text(mode.rawValue).tag(mode)
-            //                             }
-            //                         }
-            //                         .pickerStyle(SegmentedPickerStyle())
-            //                         .padding()
-            //                    }
-            
-            Chart {
-                ForEach(bestWeights) { bestWeight in
-                    
-                    
-                    if dateState == .weeks {
-                        LineMark(
-                            x: .value("Date",bestWeight.date, unit: .day),
-                            y: .value("MaxWeight", bestWeight.maxWeight))
-                        .symbol {
-                            Circle()
-                                .fill(.blue)
-                                .frame(width: 7, height: 7)
+
+            if bestWeights.isEmpty {
+                //chatgpt add a nice bit of padding above and below this Text
+                Text("No Data")
+                    .fontWeight(.semibold)
+                    .padding(.vertical, 30) // Added padding
+                    .padding(.horizontal, 30) // Added padding
+                
+            }
+            else {
+                
+                Chart {
+                    ForEach(bestWeights) { bestWeight in
+                        
+                        
+                        if dateState == .weeks {
+                            LineMark(
+                                x: .value("Date",bestWeight.date, unit: .day),
+                                y: .value("MaxWeight", bestWeight.maxWeight))
+                            .symbol {
+                                Circle()
+                                    .fill(.blue)
+                                    .frame(width: 7, height: 7)
+                            }
                         }
-                    }
-                    else {
-                        LineMark(
-                            x: .value("Date",bestWeight.date, unit: .month),
-                            y: .value("MaxWeight", bestWeight.maxWeight))
-                        .symbol {
-                            Circle()
-                                .fill(.blue)
-                                .frame(width: 7, height: 7)
+                        else {
+                            LineMark(
+                                x: .value("Date",bestWeight.date, unit: .month),
+                                y: .value("MaxWeight", bestWeight.maxWeight))
+                            .symbol {
+                                Circle()
+                                    .fill(.blue)
+                                    .frame(width: 7, height: 7)
+                            }
                         }
-                    }
-                    
-                }
-            }
-            .chartYAxis {
-                AxisMarks(position: .leading)
-            }
-            .chartYAxisLabel(position: .leading, alignment: .center) {
-            }
-            .chartYAxis {
-                AxisMarks(stroke: StrokeStyle(lineWidth: 0))
-            }
-            .chartXAxis {
-                if dateState == .weeks {
-                    //chatGPT how come my last label in my Chart is cut off and meanwhile in Months it is not?
-                    AxisMarks(preset: .aligned, values: .stride(by: .day, count: 7)) {
-                        AxisValueLabel(format: .dateTime.month(.twoDigits).day())
                         
                     }
                 }
-                else {
-                    AxisMarks(values: .stride(by: .month)) {
-                        AxisValueLabel(format: .dateTime.month(.abbreviated), centered: true)
-                    }
+               
+                .chartYAxis {
+                    AxisMarks(position: .leading)
                 }
-                
-                
+                .chartYAxisLabel(position: .leading, alignment: .center) {
+                }
+                .chartYAxis {
+                    AxisMarks(stroke: StrokeStyle(lineWidth: 0))
+                }
+                .chartXAxis {
+                    if dateState == .weeks {
+                        //chatGPT how come my last label in my Chart is cut off and meanwhile in Months it is not?
+                        AxisMarks(preset: .aligned, values: .stride(by: .day, count: 7)) {
+                            AxisValueLabel(format: .dateTime.month(.twoDigits).day())
+                            
+                        }
+                    }
+                    else {
+                        AxisMarks(values: .stride(by: .month)) {
+                            AxisValueLabel(format: .dateTime.month(.abbreviated), centered: true)
+                        }
+                    }
+                    
+                    
+                }
+                .chartForegroundStyleScale(dataType == .MaxWeight ? ["Max Weight": Color.blue] : ["One Rep Max": Color.blue] )
+                .chartLegend(.visible)
+                .aspectRatio(1.7, contentMode: .fit)
+                //.padding()
+          
             }
-            
-            .chartForegroundStyleScale(dataType == .MaxWeight ? ["Max Weight": Color.blue] : ["One Rep Max": Color.blue] )
-            .chartLegend(.visible)
-            .aspectRatio(1.7, contentMode: .fit)
-            //.padding()
-            
-            
             HStack{
                 //chatgpt make an picker here that uses my Enum and is binded to dateState
                 Picker("View Mode", selection: $dataType) {
@@ -304,28 +303,10 @@ struct ExerciseStatsView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
             }
-            
-            
-            //Toggle for 1 Rep Max and MaxWeight
-            //                    HStack(spacing: 25) {
-            //                        ForEach(buttons, id: \.0) { value in
-            //                            Button {
-            //                                dataType = value.1
-            //                            } label: {
-            //                                Text(value.0)
-            //                                    .font(.system(size: 12))
-            //                                    .foregroundStyle(value.1 == dataType
-            //                                        ? .gray
-            //                                        : .accentColor)
-            //                                    .animation(nil)
-            //                            }
-            //                        }
-            //                    }
-            //
-            
+
             
         }
-        //.navigationTitle("\(exerciseName.name)")
+
         
     }
 }

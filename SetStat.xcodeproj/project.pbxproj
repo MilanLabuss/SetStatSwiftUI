@@ -28,9 +28,9 @@
 		B91FE9DD2C2F11BA00DAA15E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */; };
 		B91FE9E12C31704C00DAA15E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FE9E02C31704C00DAA15E /* Router.swift */; };
 		B94609A72C5C0E8E00CB743E /* ExerciseStatListTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */; };
-		B9A7D4C92C3E9B5B00D9A50C /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */; };
+		B94609A92C62356300CB743E /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = B94609A82C62356300CB743E /* Inject */; };
+		B94609AB2C62356E00CB743E /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = B94609AA2C62356E00CB743E /* NavigationTransitions */; };
 		B9EA0AA82C402FF0009DCA2A /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */; };
-		B9EA0AAB2C414428009DCA2A /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = B9EA0AAA2C414428009DCA2A /* Inject */; };
 		B9EA0AAD2C57B967009DCA2A /* PreviousExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */; };
 		B9EA0AAF2C590190009DCA2A /* ExerciseStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */; };
 /* End PBXBuildFile section */
@@ -87,8 +87,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9A7D4C92C3E9B5B00D9A50C /* NavigationTransitions in Frameworks */,
-				B9EA0AAB2C414428009DCA2A /* Inject in Frameworks */,
+				B94609A92C62356300CB743E /* Inject in Frameworks */,
+				B94609AB2C62356E00CB743E /* NavigationTransitions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,8 +255,8 @@
 			);
 			name = SetStat;
 			packageProductDependencies = (
-				B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */,
-				B9EA0AAA2C414428009DCA2A /* Inject */,
+				B94609A82C62356300CB743E /* Inject */,
+				B94609AA2C62356E00CB743E /* NavigationTransitions */,
 			);
 			productName = SetStat;
 			productReference = B90C9FB82C19F42900EE25F2 /* SetStat.app */;
@@ -749,15 +749,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B9A7D4C82C3E9B5B00D9A50C /* NavigationTransitions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B9A7D4C72C3E9B5B00D9A50C /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */;
-			productName = NavigationTransitions;
-		};
-		B9EA0AAA2C414428009DCA2A /* Inject */ = {
+		B94609A82C62356300CB743E /* Inject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B9EA0AA92C414428009DCA2A /* XCRemoteSwiftPackageReference "Inject" */;
 			productName = Inject;
+		};
+		B94609AA2C62356E00CB743E /* NavigationTransitions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9A7D4C72C3E9B5B00D9A50C /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */;
+			productName = NavigationTransitions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

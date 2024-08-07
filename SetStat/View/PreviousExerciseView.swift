@@ -16,7 +16,7 @@ struct PreviousExerciseView: View {
     //we can force unwrap this because the button isnt even shown if previousExercise is empty
     var previousExercise: Exercise?
     
-    @Binding var sets: [Set]
+    @Binding var sets: [MySet]
 
 
     
@@ -64,7 +64,7 @@ struct PreviousExerciseView: View {
                                         if(sets.count <= 7) {
                                             let weight = set.weight
                                             let reps = set.reps
-                                            let newSet = Set(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
+                                            let newSet = MySet(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
                                             //chatgpt i have isolated that this line of code causes that problem why is this happening
                                             withAnimation {
                                                 sets.append(newSet)

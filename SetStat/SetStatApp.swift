@@ -17,7 +17,7 @@ struct SetStatApp: App {
     init() {
         @AppStorage("firstTime") var firstTime = true
         do {
-            let schema = Schema([Workout.self, Exercise.self, Set.self, ExerciseName.self])
+            let schema = Schema([Workout.self, Exercise.self, MySet.self, ExerciseName.self])
             container = try ModelContainer(for: schema, configurations: [])
             
             //now to prefill with Dummy Data

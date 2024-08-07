@@ -14,7 +14,7 @@ class Exercise: Identifiable {
     var exerciseName: ExerciseName
     
     @Relationship(deleteRule: .cascade)
-    var sets: [Set]?    //When an Exercise gets Deleted all Sets associated need to get deleted
+    var sets: [MySet]?    //When an Exercise gets Deleted all Sets associated need to get deleted
     var date: Date
     var workout: Workout?       //it can belong to a work but it doesnt have to
     

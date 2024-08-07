@@ -9,6 +9,17 @@ import SwiftUI
 import SwiftData
 
 
+extension Formatter {
+    static let valueFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .none
+        formatter.maximumFractionDigits = 2
+        formatter.zeroSymbol = ""     // Show empty string instead of zero
+        return formatter
+    }()
+}
+
+
 struct EditExeriseView: View {
     
     @Environment(\.modelContext) var modelContext
@@ -18,7 +29,7 @@ struct EditExeriseView: View {
     var exercise: Exercise
     
     //The user will temporarily write to this sets array than after he is done we will save it to exercises
-    @State var sets: [Set]
+    @State var sets: [MySet]
     
     @State private var showSheet = false
     @State private var showCancelAlert = false
@@ -27,7 +38,7 @@ struct EditExeriseView: View {
     
     @Query private var exercises: [Exercise]
         
-    init(exercise: Exercise, sets: [Set], showSheet: Bool = false, showCancelAlert: Bool = false, showPrevious: Bool = false) {
+    init(exercise: Exercise, sets: [MySet], showSheet: Bool = false, showCancelAlert: Bool = false, showPrevious: Bool = false) {
         self.exercise = exercise
         self.sets = sets
         self.showSheet = showSheet
@@ -54,9 +65,11 @@ struct EditExeriseView: View {
 
     var body: some View {
         VStack(spacing: 15) {
+            //The List of all Sets
             List {
                 Section(header: Text("Sets")) {
                     ForEach($sets){ $set  in
+                        //HStack for Editing the Details of a Set
                         HStack(spacing: 10) {
                             Group {
                                 if(set.isCompleted) {
@@ -80,9 +93,13 @@ struct EditExeriseView: View {
                                     Text("Kg")
                                         .foregroundStyle(.gray)
                                         .font(.subheadline)
-                                    
-                                    TextField("\(set.weight)", value: $set.weight, formatter: NumberFormatter())
+                                    //Chatgpt ia m having problems with these TextFields and its when im editting an old reps or weight i cant delete the number
+                                    //already there to add a new one it wont let the reps of weight TextField Become empty
+                                    TextField("\(set.weight)", value: $set.weight, formatter:Formatter.valueFormatter)
                                         .keyboardType(.decimalPad)
+                                    
+                                    
+                                    
                                 }
                                 .frame(width: 45)
                                 .padding(.leading)
@@ -93,7 +110,7 @@ struct EditExeriseView: View {
                                     Text("Reps")
                                         .foregroundStyle(.gray)
                                         .font(.subheadline)
-                                    TextField("\(set.reps)", value: $set.reps, formatter: NumberFormatter())
+                                    TextField("\(set.reps)", value: $set.reps,formatter:Formatter.valueFormatter)
                                         .keyboardType(.decimalPad)
                                     
                                     
@@ -106,12 +123,14 @@ struct EditExeriseView: View {
                             Spacer()
                             
                             //Button to dublicate the current set and add it to the list
+                            //chatgpt i made a discovery even this dupilicate button will allow me to make weight and reps 0 even thouhg its a complete copy of another set,
+                            //so why cant i make weight and reps of an existing Set 0?
                             Button {
                                 print("Current sets count: \(sets.count)")
                                 if(sets.count <= 7) {
                                     let weight = set.weight
                                     let reps = set.reps
-                                    let newSet = Set(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
+                                    let newSet = MySet(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
                                     withAnimation {
                                         sets.append(newSet)
                                     }
@@ -127,7 +146,7 @@ struct EditExeriseView: View {
                         
                         
                         
-                    }
+                    } //END for each
                     
                     .onDelete(perform: delete)
                     .deleteDisabled(sets.count < 2) //making sure you have to have at least one Set
@@ -138,7 +157,7 @@ struct EditExeriseView: View {
                 Section {
                     Button{
                         if(sets.count <= 7) {
-                            let newSet = Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise)
+                            let newSet = MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise)
                             withAnimation {
                                 sets.append(newSet)
                             }
@@ -149,8 +168,8 @@ struct EditExeriseView: View {
                     }
                 }
                 
-                //Showing a pop up of last weeks workout
-                if let previousExercise {
+                //Showing a pop up of last weeks workout if there is one with the same WorkoutName
+                if previousExercise != nil {
                     Section {
                         Button {
                             showPrevious.toggle()
@@ -200,17 +219,20 @@ struct EditExeriseView: View {
             // exercise = exercise
             if let newSets = exercise.sets {    //unwrapping the passed exercises sets
                 if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
+                   //Copy over all of those Sets into new Sets
                     sets = newSets
+                    
+                    
                 }
                 else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
-                    sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+                    sets = [MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise), MySet(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
                 }
                 sortSets()
                 
             }
-            //The optional exercise sets array was empty so load default sets into State
+            //The optional exercise sets array was empty so load default (0) sets into State
             else {
-                sets = [Set(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise),Set(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
+                sets = [MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise), MySet(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
                 sortSets()
             }
         }
