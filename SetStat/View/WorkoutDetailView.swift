@@ -39,7 +39,7 @@ struct WorkoutDetailView: View {
         if let exercises = workout.exercises {
             for exercise in exercises {
                 if let sets = exercise.sets {
-                    for set in sets {
+                    for _ in sets {
                         totalSets += 1
                     }
                 }

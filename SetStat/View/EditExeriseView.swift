@@ -20,6 +20,7 @@ extension Formatter {
 }
 
 
+
 struct EditExeriseView: View {
     
     @Environment(\.modelContext) var modelContext
@@ -29,7 +30,11 @@ struct EditExeriseView: View {
     var exercise: Exercise
     
     //The user will temporarily write to this sets array than after he is done we will save it to exercises
+   // @State var sets: [MySet]
     @State var sets: [MySet]
+    
+    @State private var reps: Int = 0
+    @State private var weight: Int = 0
     
     @State private var showSheet = false
     @State private var showCancelAlert = false
@@ -68,11 +73,11 @@ struct EditExeriseView: View {
             //The List of all Sets
             List {
                 Section(header: Text("Sets")) {
-                    ForEach($sets){ $set  in
+                    ForEach($sets){ $myset  in
                         //HStack for Editing the Details of a Set
                         HStack(spacing: 10) {
                             Group {
-                                if(set.isCompleted) {
+                                if(myset.isCompleted) {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(.green) // Using the custom color
                                         .font(.system(size: 22)) // Adjust the size here
@@ -83,8 +88,8 @@ struct EditExeriseView: View {
                                 }
                             }
                             .onTapGesture {
-                                if(set.reps != 0 && set.weight != 0) {
-                                    set.isCompleted.toggle()
+                                if(myset.reps != 0 && myset.weight != 0) {
+                                    myset.isCompleted.toggle()
                                 }
                             }
                             //Enter Reps and Weight
@@ -95,8 +100,29 @@ struct EditExeriseView: View {
                                         .font(.subheadline)
                                     //Chatgpt ia m having problems with these TextFields and its when im editting an old reps or weight i cant delete the number
                                     //already there to add a new one it wont let the reps of weight TextField Become empty
-                                    TextField("\(set.weight)", value: $set.weight, formatter:Formatter.valueFormatter)
+                                    TextField("\($myset.weight)", value: $myset.weight, formatter: NumberFormatter())
                                         .keyboardType(.decimalPad)
+                                        .onTapGesture {
+                                        myset.weight = 0
+                                            }
+//                                    TextField("\($myset.weight)",value:  weightBinding(for: myset), formatter: NumberFormatter())
+//                                        .keyboardType(.decimalPad)
+                                       
+                                    
+                                   
+                                    
+                                    
+                                    
+                                    
+//                                    TextField("\(myset.weight)", value: $weight, formatter: NumberFormatter())
+//                                        .keyboardType(.decimalPad)
+//                                     
+//                                        .onChange(of: weight) { newWeight in
+//                                            // Code to run when propertyToWatch changes to newValue
+//                                            if newWeight != 0 {
+//                                                myset.weight = newWeight
+//                                            }
+//                                        }
                                     
                                     
                                     
@@ -110,8 +136,20 @@ struct EditExeriseView: View {
                                     Text("Reps")
                                         .foregroundStyle(.gray)
                                         .font(.subheadline)
-                                    TextField("\(set.reps)", value: $set.reps,formatter:Formatter.valueFormatter)
+                                    TextField("\($myset.reps)", value: $myset.reps,formatter: NumberFormatter())
                                         .keyboardType(.decimalPad)
+                                        .onTapGesture {
+                                            myset.reps = 0
+                                                }
+                                    
+//                                    TextField("\(myset.reps)", value: $reps,formatter: NumberFormatter())
+//                                        .keyboardType(.decimalPad)
+//                                        .onChange(of: reps) { newReps in
+//                                            // Code to run when propertyToWatch changes to newValue
+//                                            if newReps != 0 {
+//                                                myset.reps = newReps
+//                                            }
+//                                        }
                                     
                                     
                                     
@@ -128,8 +166,8 @@ struct EditExeriseView: View {
                             Button {
                                 print("Current sets count: \(sets.count)")
                                 if(sets.count <= 7) {
-                                    let weight = set.weight
-                                    let reps = set.reps
+                                    let weight = myset.weight
+                                    let reps = myset.reps
                                     let newSet = MySet(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
                                     withAnimation {
                                         sets.append(newSet)
@@ -218,11 +256,8 @@ struct EditExeriseView: View {
             //this will check if the exercise has sets and if it does we will put them into State but if its doesnt we will create 2
             // exercise = exercise
             if let newSets = exercise.sets {    //unwrapping the passed exercises sets
-                if (!newSets.isEmpty) {     //we passed actual sets in so set them to our sets
-                   //Copy over all of those Sets into new Sets
+                if (!newSets.isEmpty) {     //we passed actual sets in so set them to our set
                     sets = newSets
-                    
-                    
                 }
                 else {      //the exercise had no sets meaning an empty array was passed so we fill it with our mock Sets
                     sets = [MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise), MySet(id: UUID(), weight: 0, reps: 0, isCompleted: false, exercise: exercise)]
@@ -244,7 +279,6 @@ struct EditExeriseView: View {
 
         .alert("Cancel", isPresented: $showCancelAlert) {
             Button("Yes", role: .destructive) {
-                //Navigate back
                 dismiss()
             }
             Button("No", role: .cancel) {
@@ -268,6 +302,17 @@ struct EditExeriseView: View {
     // Sorting the sets by weight from smallest to largest
     private func sortSets() {
         sets.sort { $0.weight < $1.weight }
+    }
+    
+    private func weightBinding(for set: MySet) -> Binding<Int?> {
+        Binding<Int?>(
+             get: { set.weight },
+             set: { value in
+                 if let value {
+                    set.weight = value
+                 }
+              }
+          )
     }
     
     //Saving all of the Sets that were marked as Complete
