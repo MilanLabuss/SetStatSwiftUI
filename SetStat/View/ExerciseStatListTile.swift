@@ -45,6 +45,7 @@ struct ExerciseStatListTile: View {
                 
             }
         }
+        
     
     }
 }

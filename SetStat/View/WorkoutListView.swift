@@ -58,7 +58,9 @@ struct WorkoutListView: View {
                                 Button {
                                     //the workout copy method uses the exercises copy method to copy all exercises which itself does the same for its sets
                                     let newWorkout = workout.copy()
-                                    modelContext.insert(newWorkout)
+                                    withAnimation(.spring()){
+                                        modelContext.insert(newWorkout)
+                                    }
                                     
                                 }
                             label: {

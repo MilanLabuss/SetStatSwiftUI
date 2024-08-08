@@ -274,9 +274,17 @@ struct ExerciseStatsView: View {
                 .chartXAxis {
                     if dateState == .weeks {
                         //chatGPT how come my last label in my Chart is cut off and meanwhile in Months it is not?
-                        AxisMarks(preset: .aligned, values: .stride(by: .day, count: 7)) {
-                            AxisValueLabel(format: .dateTime.month(.twoDigits).day())
-                            
+//                        AxisMarks(preset: .aligned, values: .stride(by: .day, count: 7)) {
+//                            AxisValueLabel(format: .dateTime.month(.twoDigits).day())
+//                            
+//                        }
+                        AxisMarks(values: .stride(by: .day, count: 7)) { value in
+                            AxisValueLabel(
+                                format: .dateTime.month(.twoDigits).day(),
+                                anchor: value.index == 0
+                                    ? .topLeading
+                                    : value.index == value.count - 1 ? .topTrailing : .top
+                            )
                         }
                     }
                     else {

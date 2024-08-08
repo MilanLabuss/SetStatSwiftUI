@@ -30,6 +30,7 @@
 		B94609A72C5C0E8E00CB743E /* ExerciseStatListTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */; };
 		B94609A92C62356300CB743E /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = B94609A82C62356300CB743E /* Inject */; };
 		B94609AB2C62356E00CB743E /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = B94609AA2C62356E00CB743E /* NavigationTransitions */; };
+		B94609AD2C63B82400CB743E /* NumberOfWorkoutsStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */; };
 		B9EA0AA82C402FF0009DCA2A /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */; };
 		B9EA0AAD2C57B967009DCA2A /* PreviousExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */; };
 		B9EA0AAF2C590190009DCA2A /* ExerciseStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */; };
@@ -77,6 +78,7 @@
 		B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		B91FE9E02C31704C00DAA15E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStatListTile.swift; sourceTree = "<group>"; };
+		B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWorkoutsStat.swift; sourceTree = "<group>"; };
 		B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousExerciseView.swift; sourceTree = "<group>"; };
 		B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStatsView.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */,
 				B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */,
 				B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */,
+				B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9EA0AAF2C590190009DCA2A /* ExerciseStatsView.swift in Sources */,
+				B94609AD2C63B82400CB743E /* NumberOfWorkoutsStat.swift in Sources */,
 				B90A539D2C218020005123A4 /* EditWorkoutView.swift in Sources */,
 				B91FE9DA2C2F118300DAA15E /* HistoryView.swift in Sources */,
 				B912D1992C381E9300AB07CA /* WorkoutListView.swift in Sources */,
@@ -561,11 +565,14 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BeFit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -594,11 +601,14 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = BeFit;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

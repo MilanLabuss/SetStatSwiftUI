@@ -31,34 +31,31 @@ struct StatsView: View {
     var body: some View {
         
         NavigationStack {
-            VStack {
- 
-                    List {
+
+                
+                List {
+                    Section("Total Workouts") {
+                        //chatgpt give this a tiny bit of elevation
+                        NumberOfWorkoutsStat()
+                    }
+                    Section("By Exercise"){
                         ForEach(exerciseNames) { exerciseName in
                             ExerciseStatListTile(exerciseName: exerciseName)
-                            }
                             
-//                            NavigationLink {
-//                                ExerciseStatsView(exerciseName: exerciseName)
-//                                
-//                            } label: {
-//                                Text("\(exerciseName.name)")
-//                            }
                         }
-                    .listRowSpacing(10)
                     
-
-                   
                     }
-
-            }
-        }
+     
+                    
+                }
+                .listRowSpacing(15)
+                .navigationTitle("Stats")
+                
         
+        }
+       
+    }
       
         
     
-}
-
-#Preview {
-    StatsView()
 }

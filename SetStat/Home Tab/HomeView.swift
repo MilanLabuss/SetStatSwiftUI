@@ -60,6 +60,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 10) {
                       // Button(showDuplicateButton ? "Done" : "Repeat")
+                        //Show copy Buttons
                         Button {
                             
                             showDuplicateButton.toggle()
@@ -76,7 +77,7 @@ struct HomeView: View {
                             }
                             
                         }
-                        
+                        //Show stats button
                         Button {
                             showStatsButton.toggle()
                             if(showDuplicateButton == true) {
@@ -98,7 +99,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .principal) {
                     HStack {
                         Button {
-                            //removing one month to the date
+                            //removing one month to the date to toggle back
                             selectedDate = Calendar.current.date(byAdding: .month, value: -1, to: selectedDate) ?? selectedDate
                         } label: {
                             Image(systemName: "chevron.left.circle.fill")

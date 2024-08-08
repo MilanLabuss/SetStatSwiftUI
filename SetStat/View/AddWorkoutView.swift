@@ -127,10 +127,8 @@ struct AddWorkoutView: View {
                                      exercise.date = workoutEndTime
                                }
                         }
-                        
-                        
-                        
                         dismiss()
+                        
                     }
                     
                 } label: {
