@@ -11,8 +11,8 @@ import SwiftData
 @Model
 class MySet: Identifiable {
     var id: UUID
-    var weight: Int
-    var reps: Int
+    var weight: Int?
+    var reps: Int?
     var isCompleted: Bool
     
  
@@ -22,14 +22,14 @@ class MySet: Identifiable {
     
     //make a copy functionality so you can call this and pass it an Exercise when copying a Set
     func copy(newexercise: Exercise) -> MySet {
-       let newSet =  MySet(id: UUID(), weight: weight, reps: reps, isCompleted: isCompleted,date: Date.now , exercise: newexercise)
+        let newSet =  MySet(id: UUID(), weight: weight, reps: reps, isCompleted: isCompleted,date: Date.now , exercise: newexercise)
         return newSet
         }
     
     init(
         id: UUID,
-        weight: Int,
-        reps: Int,
+        weight: Int?,
+        reps: Int?,
         isCompleted: Bool,
         date: Date,
         exercise: Exercise

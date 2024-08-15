@@ -13,7 +13,7 @@ struct DetailViewExercisesList: View {
     
     @Query var sets: [MySet]
     
-    private var filteredSets: [MySet] {
+    private var filteredSets: [MySet] {     //the sets that belong to the passed down exercise
         sets.filter { $0.exercise == exercise }
        }
     
@@ -21,7 +21,7 @@ struct DetailViewExercisesList: View {
     var body: some View {
         //chatgpt give this VStack rounded corners and a bit of elevation
         VStack(alignment: .leading, spacing: 10) {
-            Text(exercise.exerciseName.name)
+            Text(exercise.name)
                 .foregroundStyle(.black)
                 .fontWeight(.semibold)
                 .font(.system(size: 17))
@@ -32,12 +32,17 @@ struct DetailViewExercisesList: View {
                 //Chatgpt im getting sets here whos weight and reps are 0 i cant have that
                 ForEach(filteredSets) { set in
                     HStack{
-                        Text("\(set.weight) kg")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 15))
-                        Text("x \(set.reps) reps")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 15))
+                        if let setWeight = set.weight {
+                            Text("\(setWeight) kg")
+                                .foregroundStyle(.black)
+                                .font(.system(size: 15))
+                        }
+                       
+                        if let reps = set.reps {
+                            Text("x \(reps) reps")
+                                .foregroundStyle(.black)
+                                .font(.system(size: 15))
+                        }
                     }
                     
                 }

@@ -13,6 +13,8 @@ import SwiftData
 
 struct HomeView: View {
     
+    let copyworkoutTip: CopyWorkoutTip = CopyWorkoutTip()
+    
     @EnvironmentObject var router: Router
     @Environment(\.modelContext) var modelContext
     @State private var showDuplicateButton = false
@@ -66,7 +68,6 @@ struct HomeView: View {
                       // Button(showDuplicateButton ? "Done" : "Repeat")
                         //Show copy Buttons
                         Button {
-                            
                             showDuplicateButton.toggle()
                             if(showStatsButton == true) {
                                 showStatsButton.toggle()
@@ -81,6 +82,8 @@ struct HomeView: View {
                             }
                             
                         }
+                        .popoverTip(copyworkoutTip)
+                        
                         //Show stats button
                         Button {
                             showStatsButton.toggle()
@@ -159,6 +162,11 @@ struct HomeView: View {
                 withAnimation(repeated) {
                     isRotating = true
                 }
+                
+                Task {
+                    await CopyWorkoutTip.homeVisited.donate()   //Iterating how many Times home was Visited
+                }
+                
             }
             .onDisappear {
                 isRotating = false

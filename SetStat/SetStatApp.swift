@@ -7,14 +7,18 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct SetStatApp: App {
     var container: ModelContainer
     @StateObject var router = Router()
     
+    var copyWorkoutTip = CopyWorkoutTip()
+    
     
     init() {
+        //TipsCenter.shared.configure()
         @AppStorage("firstTime") var firstTime = true
         do {
             let schema = Schema([Workout.self, Exercise.self, MySet.self, ExerciseName.self])
@@ -36,10 +40,22 @@ struct SetStatApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(router)
+                .task {
+                    //For Testing this will be deleted later
+                   // try? Tips.resetDatastore()
+                    
+                    try? Tips.configure([
+                        .displayFrequency(.immediate),
+                        .datastoreLocation(.applicationDefault)
+                    ])
+                }
         }
         .modelContainer(container)
                
     }
+    
+    
+ 
     
 
 }

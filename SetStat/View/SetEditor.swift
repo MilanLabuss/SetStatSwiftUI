@@ -10,7 +10,6 @@ import SwiftUI
 //extensions to create bindings so the Textfield can directly manipulate the object
 extension MySet {
 
-    //this is turning my non optional Into a binding that takes a Int?
     var weightBinding: Binding<Int?> {
         Binding<Int?>(
             get: { self.weight },
@@ -34,6 +33,7 @@ extension MySet {
     
 }
 
+
 //will contain TextFields to control a Set
 struct SetEditor: View {
     
@@ -52,12 +52,12 @@ struct SetEditor: View {
         
         VStack {
             Text("\(currentIndex+1)")
-                           .font(.system(size: 12))
-                           .frame(width: 20, height: 20)
-                           .overlay(
-                               Circle()
-                                   .stroke(Color.gray, lineWidth: 1) // Circular border with gray color
-                           )
+                     .font(.system(size: 12))
+                     .frame(width: 20, height: 20)
+                     .overlay(
+                            Circle()
+                                .stroke(Color.gray, lineWidth: 1) // Circular border with gray color
+                        )
                          
         }
         .padding(.trailing, 5)
@@ -69,30 +69,28 @@ struct SetEditor: View {
                 .foregroundStyle(.gray)
             
                 TextField(
-                    "\(myset.weight)",
-                    value: myset.weightBinding, formatter: NumberFormatter()
+                    "\(myset.weight ?? 0)",
+                    value: myset.weightBinding, format: .number
                    )
+                .keyboardType(.numberPad)
                 .font(.system(size: 14))
                 .fontWeight(.semibold)
                 .frame(width: 60)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .fixedSize(horizontal: true, vertical: false)
-            
-
-               
+              
             }
-    
-
-            
+             
             VStack(alignment: .leading) {
                 Text("Reps")
                     .font(.system(size: 11))
                     .foregroundStyle(.gray)
       
                 TextField(
-                    "\(myset.reps)",
-                    value: myset.repBinding, formatter: NumberFormatter()
+                    "\(myset.reps ?? 0)",
+                    value: myset.repBinding, format: .number
                    )
+                .keyboardType(.numberPad)
                 .font(.system(size: 14))
                 .fontWeight(.semibold)
                 .frame(width: 60)
@@ -141,6 +139,7 @@ struct SetEditor: View {
                     .foregroundStyle(.gray)
                     .padding()
             }
+            .buttonStyle(.plain) // Apply plain button style to the Menu label
                       
             }
 

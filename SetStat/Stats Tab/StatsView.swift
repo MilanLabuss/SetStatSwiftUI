@@ -24,7 +24,8 @@ struct StatsView: View {
     
     @State private var sortOrder = SortDescriptor(\Workout.endTime, order: .reverse)
  
-    @Query var exerciseNames: [ExerciseName]
+    
+    @Query(sort: \ExerciseName.name) var exerciseNames: [ExerciseName]
     
  
     

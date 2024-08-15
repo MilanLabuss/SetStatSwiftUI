@@ -40,7 +40,7 @@ struct WorkoutDetailView: View {
             for exercise in filteredExercises {
                 let filteredSets = sets.filter { $0.exercise == exercise }
                     for set in filteredSets {
-                        totalVolume += set.weight
+                        totalVolume += set.weight ?? 0
                     }
                 
                 
@@ -54,8 +54,10 @@ struct WorkoutDetailView: View {
        // if let exercises = filteredExercises {
             for exercise in filteredExercises {
                 let filteredSets = sets.filter { $0.exercise == exercise }
-                    for _ in filteredSets {
-                             totalSets += 1
+                    for set in filteredSets {
+                        if set.weight != nil && set.reps != nil { 
+                                 totalSets += 1
+                             }
                     }
                 
                 

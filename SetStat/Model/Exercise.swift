@@ -11,7 +11,8 @@ import SwiftData
 @Model
 class Exercise: Identifiable {
     var id: UUID
-    var exerciseName: ExerciseName
+   // var exerciseName: ExerciseName
+    var name: String
     
     @Relationship(deleteRule: .cascade, inverse: \MySet.exercise)
     var sets: [MySet]?    //When an Exercise gets Deleted all Sets associated need to get deleted
@@ -20,7 +21,7 @@ class Exercise: Identifiable {
     var workout: Workout
  
     func copy(newworkout: Workout) -> Exercise {
-        let newExercise = Exercise(id: UUID(), exerciseName: exerciseName, date: Date.now, workout: newworkout)
+        let newExercise = Exercise(id: UUID(), name: name, date: Date.now, workout: newworkout)
         
         // Copy the related sets
 //        if let existingSets = sets {
@@ -35,9 +36,9 @@ class Exercise: Identifiable {
         return newExercise
     }
     
-    init(id: UUID, exerciseName: ExerciseName, date: Date, workout: Workout) {
+    init(id: UUID, name: String, date: Date, workout: Workout) {
         self.id = id
-        self.exerciseName = exerciseName
+        self.name = name
         self.date = date
         self.workout = workout
     }
