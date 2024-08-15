@@ -17,18 +17,33 @@ import SwiftData
 
 struct EditWorkoutView: View {
     
+
+    
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
  
     let workout: Workout
-    
+
+    //These will be Set in the OnAppear
     @State private var workoutName: String = ""
     @State private var workoutStartTime: Date = Date.now
     @State private var workoutEndTime: Date = Date.now
     
-
+    @Query(sort: [SortDescriptor(\Exercise.date, order: .reverse)]) private var exercises : [Exercise]
     
+    private var filteredExercises: [Exercise] {
+        exercises.filter { $0.workout == workout }
+    }
+    
+    //doing the exact same thing to get all the Sets of Each Exercise
+
+    //show the sheet for adding a new Exercise
     @State private var showExercieSheet = false
+    
+    
+//
+//    @State private var showPreviousSheet = false
+//    @State private var previousExercise: Exercise? = nil
     
  
     var body: some View {
@@ -55,40 +70,119 @@ struct EditWorkoutView: View {
                 
                     
                 }
-                Section(header: Text("Exercises")) {
-                    if let exercises =  workout.exercises?.sorted(by: { $0.date < $1.date }) {
-                        ForEach(exercises){ exercise in
-                            NavigationLink {
-                                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
-                                    .navigationBarBackButtonHidden(true)
-                            } label: {
-                                
-                                VStack(alignment:.leading) {
-                                    Text(exercise.exerciseName.name)
-                                        .fontWeight(.semibold)
-                                        .padding(.top, 5)
-                                        .padding(.bottom, 5)
-                                        
+              //  Section(header: Text("Exercises")) {
+                        ForEach(filteredExercises){ exercise in
+                            Section() {
+                                VStack(alignment: .leading, spacing: 5) {
                                     
-                                    if let sets = exercise.sets {
-                                        Text("\(sets.count)x Sets")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(.gray)
-                                            
+                                    ExerciseTopRow(
+                                                    exercise: exercise,
+                                                    deleteExercise: { deleteExercise(exercise) }
+                                                    )
+                                    
+                                    Divider()
+                                    
+                                    SetsView(exercise: exercise)
+                                    Divider()
+                                    
+                                    Button{
+                                        if let exercisesets = exercise.sets {
+                                            if(exercisesets.count <= 9) {
+                                                let newSet = MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false,date: Date.now , exercise: exercise)
+                                                //ChatGpt I cannot see this being added until i Refresh the app
+                                                modelContext.insert(newSet)
+                                               
+                                            }
+                                        }
+                                    }label: {
+                                        Text("Add set")
+                                            .underline()
+                                            .foregroundStyle(.blue)
                                             
                                     }
-                                        
+                                    .buttonStyle(PlainButtonStyle())
+                                    .padding(.top, 5)
+                                    
                                     
                                 }
+                               
+                               
                             }
+                            
                         }
-                        .onDelete(perform: delete)
-                    } else {
-                        Text("No Exericses Yet")
-                    }
+                //Im going to Replace this with a Button to either view the Previous Exercise or Delete the Entire Exercise
+                        //.onDelete(perform: delete)
+              //  }
+//                            VStack(alignment: .leading) {
+//                                    
+//                                    Text("\(exercise.exerciseName.name)")
+//                                    if let exercisesets = exercise.sets {
+//                                        ForEach(exercisesets) { set in
+//                                            //chatgpt i want 20 pixels of space vettewn each VStack
+//                                                HStack {
+//                                                    Text("\(set.weight)")
+//                                                    Text("\(set.reps)")
+//                                                }
+//                                            
+//                                        }
+//                                        Divider()
+//                                        Button{
+//                                            if let exercisesets = exercise.sets {
+//                                                if(exercisesets.count <= 7) {
+//                                                    let newSet = MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false, exercise: exercise)
+//                                                    //ChatGpt I cannot see this being added until i Refresh the app
+//                                                    modelContext.insert(newSet)
+//                                                }
+//                                            }
+//                                        }label: {
+//                                            Text("Add set")
+//                                                .underline()
+//                                        }
+//                                    }
+//                                }
+                        
+                                //EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+                            //}
+
+                            
+//                            NavigationLink {
+//                                EditExeriseView(exercise: exercise, sets: exercise.sets ?? [])
+//                                    .navigationBarBackButtonHidden(true)
+//                            } label: {
+//                                
+//                                VStack(alignment:.leading) {
+//                                    Text(exercise.exerciseName.name)
+//                                        .fontWeight(.semibold)
+//                                        .padding(.top, 5)
+//                                        .padding(.bottom, 5)
+//                                        
+//                                    
+//                                    if let sets = exercise.sets {
+//                                        Text("\(sets.count)x Sets")
+//                                            .font(.system(size: 13))
+//                                            .foregroundStyle(.gray)
+//                                            
+//                                            
+//                                    }
+//                                        
+//                                    
+//                                }
+//                            }
+                      
+                    
+                    
+                    
+                  //  }
+//                    else {
+//                        Text("No Exericses Yet")
+//                    }
                    
                     //.onDelete(perform: delete)
-                }
+                    
+                
+                        
+                  
+               
                 Section {
                     Button {
                         showExercieSheet = true
@@ -109,7 +203,7 @@ struct EditWorkoutView: View {
             ToolbarItem(placement: .topBarLeading) {
                 Button{
                     //we save the workout before going back since we are editing one here not creating it
-                    if(!workoutName.isEmpty) {
+                   // if(!workoutName.isEmpty) {
                         workout.name = workoutName
                         workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
@@ -123,7 +217,7 @@ struct EditWorkoutView: View {
                         }
  
                         dismiss()
-                    }
+                   // }
                 }label: {
                     Text("Back")
                         .foregroundStyle(.blue)
@@ -138,7 +232,7 @@ struct EditWorkoutView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     // Save the Content (Everything is optional so just save it as Is but i will demand a name)
-                    if(!workoutName.isEmpty) {
+                    //if(!workoutName.isEmpty) {
                         workout.name = workoutName
                         workout.startTime = workoutStartTime
                         workout.endTime = workoutEndTime
@@ -153,13 +247,14 @@ struct EditWorkoutView: View {
                         
                         dismiss()
                         
-                    }
+                    //}
        
                 } label: {
                     Text("Save")
                         .font(.headline)
                         .underline()
-                        .foregroundStyle(!workoutName.isEmpty ? .blue : .gray)
+                        //.foregroundStyle(!workoutName.isEmpty ? .blue : .gray)
+                        .foregroundStyle(.blue)
                         .fontWeight(.semibold)
                 }
             }
@@ -175,31 +270,56 @@ struct EditWorkoutView: View {
                 .presentationDragIndicator(.visible)
             
         }
-//        .alert("Cancel", isPresented: $showCancelAlert) {
-//            Button("Yes", role: .destructive) {
-//                //Navigate back
-//                dismiss()
-//            }
-//            Button("No", role: .cancel) {
-//                
-//            }
-//            
-//        } message: {
-//            Text("Are you sure you want to cancel?")
+//        .sheet(isPresented: $showPreviousSheet) {
+//            if let previousExercise = previousExercise {
+//                           PreviousExerciseView(previousExercise: previousExercise)
+//                               .presentationDragIndicator(.visible)
+//                       }
 //        }
-        
-        
-        
-        
-        
-        
-        
-        
+
     }//End of Body
     //deleteing exercise Straight from Model context because we are working directly with a query here
-    func delete(at offsets: IndexSet) {
-        workout.exercises?.remove(atOffsets: offsets)
-    }
+//    func delete(at offsets: IndexSet) {
+//        let exercisesToDelete = filteredExercises
+//               for index in offsets {
+//                   let exercise = exercisesToDelete[index]
+//                   modelContext.delete(exercise)
+//               }
+//    }
+    
+//    func delete(at offsets: IndexSet) {
+//        let exercisesToDelete = filteredExercises
+//        for index in offsets {
+//            let exercise = exercisesToDelete[index]
+//            
+//            // Delete associated MySet objects first
+//            if let sets = exercise.sets {
+//                for set in sets {
+//                    modelContext.delete(set)
+//                }
+//            }
+//            
+//            // Now delete the exercise itself
+//            modelContext.delete(exercise)
+//        }
+//    }
+    
+    private func deleteExercise(_ exercise: Exercise) {
+
+    
+            
+            // Delete associated MySet objects first
+            if let sets = exercise.sets {
+                for set in sets {
+                    modelContext.delete(set)
+                }
+            }
+            
+            // Now delete the exercise itself
+            modelContext.delete(exercise)
+        
+
+       }
     
     
 }

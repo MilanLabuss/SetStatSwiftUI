@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 //Will show all of the statistics of the Workout
 struct WorkoutDetailView: View {
@@ -13,46 +14,74 @@ struct WorkoutDetailView: View {
     
     let workout: Workout
     
+ 
+    @Query var exercises: [Exercise]
+    
+    
     
     var duration: Int? {
         Calendar.current.dateComponents([.minute], from: workout.startTime, to: workout.endTime).minute
     }
     
+    private var filteredExercises: [Exercise] {
+           exercises.filter { $0.workout == workout } // Filter exercises for the current workout
+       }
+    
+    //chatgpt lets use sets here and filter it where theSets parents Exercises workout matches the current Workout
+    
+    
+    @Query var sets: [MySet]
+    
+    
     //total weight for all exercises
     var volume: Int {
         var totalVolume = 0
-        if let exercises = workout.exercises {
-            for exercise in exercises {
-                if let sets = exercise.sets {
-                    for set in sets {
+       // if let exercises = filteredExercises {
+            for exercise in filteredExercises {
+                let filteredSets = sets.filter { $0.exercise == exercise }
+                    for set in filteredSets {
                         totalVolume += set.weight
                     }
-                }
+                
                 
             }
-        }
+       // }
         return totalVolume
     }
     //total number of sets for all exercises
     var totalSets: Int {
         var totalSets = 0
-        if let exercises = workout.exercises {
-            for exercise in exercises {
-                if let sets = exercise.sets {
-                    for _ in sets {
-                        totalSets += 1
+       // if let exercises = filteredExercises {
+            for exercise in filteredExercises {
+                let filteredSets = sets.filter { $0.exercise == exercise }
+                    for _ in filteredSets {
+                             totalSets += 1
                     }
-                }
+                
                 
             }
-        }
+       // }
         return totalSets
     }
     
+    //computed Value that Ensures there are no Exercises whos only set is a  0 0 set
+//    private var filteredExercises: [Exercise] {
+//        if let exercises = workout.exercises {
+//            return exercises.filter { exercise in
+//                guard let sets = exercise.sets else { return false }
+//                // Return true if there is at least one valid set
+//                return sets.contains { $0.weight != 0 || $0.reps != 0 }
+//            }
+//        }
+//        return []
+        
+        //chatgpt return a list of exercises whos workout is that passed down workout
+//    }
+    
+ 
+    
     
     var body: some View {
-        
-
             ScrollView {
                 //The Toolbar
                 VStack {
@@ -154,44 +183,10 @@ struct WorkoutDetailView: View {
                         Spacer()
                     }
                     Section {
-                        if let exercises = workout.exercises {
-                            ForEach(exercises) { exercise in
-                                //chatgpt give this VStack rounded corners and a bit of elevation
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text(exercise.exerciseName.name)
-                                        .foregroundStyle(.black)
-                                        .fontWeight(.semibold)
-                                        .font(.system(size: 17))
-                                    
-                                    Divider()
-                                    if let sets = exercise.sets {
-                                        ForEach(sets) { set in
-                                            HStack{
-                                                Text("\(set.weight) kg")
-                                                    .foregroundStyle(.black)
-                                                    .font(.system(size: 15))
-                                                Text("x \(set.reps) reps")
-                                                    .foregroundStyle(.black)
-                                                    .font(.system(size: 15))
-                                            }
-                                            
-                                        }
-                                    }
-                                }
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .padding()
-                                .background(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                               
-                                .overlay(RoundedRectangle(cornerRadius: 8).stroke(.gray, lineWidth: 1))
-                                
-                                
-                                //.shadow(radius: 8)
-                                
-                                
-                                
-                                
-                            }
+                      //  if let exercises = workout.exercises {
+                            ForEach(filteredExercises) { exercise in
+                            
+                                DetailViewExercisesList(exercise: exercise)
                         }
                     } //END exercise Section
          

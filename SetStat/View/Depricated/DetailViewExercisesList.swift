@@ -6,13 +6,50 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailViewExercisesList: View {
+    var exercise: Exercise
+    
+    @Query var sets: [MySet]
+    
+    private var filteredSets: [MySet] {
+        sets.filter { $0.exercise == exercise }
+       }
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        //chatgpt give this VStack rounded corners and a bit of elevation
+        VStack(alignment: .leading, spacing: 10) {
+            Text(exercise.exerciseName.name)
+                .foregroundStyle(.black)
+                .fontWeight(.semibold)
+                .font(.system(size: 17))
+            
+            Divider()
+            
+           
+                //Chatgpt im getting sets here whos weight and reps are 0 i cant have that
+                ForEach(filteredSets) { set in
+                    HStack{
+                        Text("\(set.weight) kg")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 15))
+                        Text("x \(set.reps) reps")
+                            .foregroundStyle(.black)
+                            .font(.system(size: 15))
+                    }
+                    
+                }
+           
+        }
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .padding()
+        .background(.white)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+       
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.gray, lineWidth: 1))
     }
 }
 
-#Preview {
-    DetailViewExercisesList()
-}
+

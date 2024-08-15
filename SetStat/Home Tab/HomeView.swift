@@ -41,10 +41,14 @@ struct HomeView: View {
                         Text("Tap the button below to get started")
                     }
                 actions: {
-                        NavigationLink {
-                            AddWorkoutView()
-                                .toolbar(.hidden, for: .tabBar)
-                                .navigationBarBackButtonHidden(true)
+                        Button {
+//                            AddWorkoutView()
+//                                .toolbar(.hidden, for: .tabBar)
+//                                .navigationBarBackButtonHidden(true)
+                            let workout = Workout(id: UUID(), name : "", startTime: Date.now, endTime: Date.now)
+                            modelContext.insert(workout)
+                            router.path.append(workout)
+                                
                             
                         } label : {
                             Text("Start Workout")
@@ -120,11 +124,21 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                   
                        
-                        NavigationLink() {
-                            AddWorkoutView()
-                                .toolbar(.hidden, for: .tabBar)
-                                .navigationBarBackButtonHidden(true)
-                        } label : {
+//                        NavigationLink() {
+//                            AddWorkoutView()
+//                                .toolbar(.hidden, for: .tabBar)
+//                                .navigationBarBackButtonHidden(true)
+//                        } 
+                    
+                    
+                    //Button to add workout to DB and navigate to EditWorkoutView via the Path
+                    Button {
+                        let workout = Workout(id: UUID(), name : "", startTime: Date.now, endTime: Date.now)
+                        modelContext.insert(workout)
+                        router.path.append(workout)      
+                    }
+                    
+                    label : {
                             Image(systemName: "dumbbell.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)      // << here !!

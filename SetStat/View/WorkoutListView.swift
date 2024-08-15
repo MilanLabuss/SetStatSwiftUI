@@ -16,6 +16,8 @@ struct WorkoutListView: View {
     @Environment(\.modelContext) var modelContext
     
     @Query(animation: .easeIn) var workouts: [Workout]
+    @Query var exercises: [Exercise]
+
     var selectedDate : Date
     
     var showDuplicateButton: Bool
@@ -49,6 +51,7 @@ struct WorkoutListView: View {
     var body: some View {
         
         List {
+            //chatgpt the problem isnt ehre i can see the new workouts when they get added
             Section(header: workouts.isEmpty ? Text("") : Text("Workouts")) {
                 ForEach(workouts) { workout in
                     NavigationLink(value: workout) {
@@ -57,10 +60,13 @@ struct WorkoutListView: View {
                             if showDuplicateButton {
                                 Button {
                                     //the workout copy method uses the exercises copy method to copy all exercises which itself does the same for its sets
-                                    let newWorkout = workout.copy()
-                                    withAnimation(.spring()){
-                                        modelContext.insert(newWorkout)
-                                    }
+//                                    let newWorkout = workout.copy()
+//                            
+//                                    modelContext.insert(newWorkout)
+                                    
+                                    //chatgpt now that you see my SwiftData Relationships explain why this crashes my code
+                                    duplicateWorkout(workout: workout)
+    
                                     
                                 }
                             label: {
@@ -116,12 +122,9 @@ struct WorkoutListView: View {
                                     .fontWeight(.semibold)
                                     .font(.system(size: 18, weight: .semibold, design: .default))
                                 
-                                //The Stats
-                                if let exercises =  workout.exercises {
-                                    Text("\(exercises.count)x Exercises")
-                                        .font(.system(size: 13))
-                                }
-                                
+                                Text("\(countExercises(for: workout))x Exercises")
+                                                                    .font(.system(size: 13))
+
                             }
                         }
                     } //End NavLink
@@ -136,6 +139,7 @@ struct WorkoutListView: View {
 //        .popover(item: $selectedWorkout) { workout in  // <-- here
 //            WorkoutDetailView(workout: workout)
 //            }
+        //chatgpt this detail screen takes a workout and shows all exercises associated with that workout and it does but only once i refresh the app
         .fullScreenCover(item: $selectedWorkout) { workout in
             WorkoutDetailView(workout: workout)
         }
@@ -151,6 +155,54 @@ struct WorkoutListView: View {
         for offset in offsets {
             let workout = workouts[offset]
             modelContext.delete(workout)
+        }
+    }
+    //will count how many exercises a workout has by filtering the exercises query by workout
+    private func countExercises(for workout: Workout) -> Int {
+        // Filter the exercises to get those related to the current workout
+        let filteredExercises = exercises.filter { $0.workout == workout }
+        return filteredExercises.count
+    }
+    
+    
+    func duplicateWorkout(workout: Workout) {
+        let newWorkout = Workout(id: UUID(), name: workout.name, startTime: Date.now, endTime: Date.now)
+        modelContext.insert(newWorkout)
+        if let exercises = workout.exercises {
+         
+            for exercise in exercises {
+                let newExercise = Exercise(
+                    id: UUID(),
+                    exerciseName: exercise.exerciseName,
+                    date: Date.now,
+                    workout: newWorkout
+                )
+                 modelContext.insert(newExercise)
+                
+                if let sets = exercise.sets {
+                   // var newSets: [MySet] = []
+                    
+                    for set in sets {
+                        // Create a new Set instance linked to the new Exercise
+                        let newSet = MySet(
+                            id: UUID(),
+                            // Replace with actual properties of MySet
+                            weight: set.weight,
+                            reps: set.reps,
+                            isCompleted: false,
+                            date: Date.now,
+                            exercise: newExercise
+                        )
+                        
+                       modelContext.insert(newSet)
+                       // newExercise.sets?.append(newSet)
+                    }
+ 
+                }
+ 
+            }
+           
+            
         }
     }
 }

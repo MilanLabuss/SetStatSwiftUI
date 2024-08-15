@@ -42,6 +42,9 @@ struct BestSetOfPeriod {
 //Will display of the Statistics of the Passed Down ExerciseName and will be Displayed in both the Expanded View and The ExerciseStatsDetailView
 struct ExerciseStatsView: View {
     
+    
+    var showFavoritesOnly = false
+    
     func calculateOneRepMax(weight: Double, reps: Int) -> Double {
         return weight * (1 + 0.0333 * Double(reps))
     }
@@ -53,6 +56,8 @@ struct ExerciseStatsView: View {
     @Query private var exercises: [Exercise]
     
     @State private var dateState: DateState = .weeks
+    
+   
     
     
     init(exerciseName: ExerciseName) {
@@ -66,6 +71,8 @@ struct ExerciseStatsView: View {
     
     
     @State private var dataType: DataType = DataType.MaxWeight
+    
+    
     
     
     //Computed value of highest weight in a given 6 week or 6 months range(for each month or week)

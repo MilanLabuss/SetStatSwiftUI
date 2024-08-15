@@ -20,7 +20,7 @@ struct AddExerciseView: View {
     @Environment(\.dismiss) private var dismiss
     
     //The passed down Workout Object passed down from the Workout
-    var workout: Workout?
+    var workout: Workout
     
     @EnvironmentObject var router: Router
     
@@ -64,10 +64,11 @@ struct AddExerciseView: View {
                     
                     Button {
                         //database operation adding exerciseName to ExerciseName model
+                        //ChatGpt SomeTimes pressing this button
                         if (!exerciseName.isEmpty) {
                             
                             if (!exercisesNames.contains(where: { $0.name.lowercased() == exerciseName.lowercased() })) {
-                                let newExeriseName = ExerciseName(name: exerciseName)
+                                let newExeriseName = ExerciseName(name: exerciseName, isFavorite: false)
                                 modelContext.insert(newExeriseName)
                                 showNameInput.toggle()
                                 }
@@ -106,24 +107,19 @@ struct AddExerciseView: View {
             //Done Button will add new exercise and dismiss the sheet
             Button {
                 if(selection != nil) {
+             
+                    let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: workout.endTime, workout: workout)
+    
+                     modelContext.insert(newExercise)
                     
-                    //The Date needs to match the Workouts Date
-                    if let workout = workout {
-                        let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: workout.endTime)
+               
+                    
+                    let set =  MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false,date: Date.now ,exercise: newExercise)
 
-                    modelContext.insert(newExercise)
+                     modelContext.insert(set)
                     
-                    //Unwrapping workout to also write to workout
-                   // if let workout = workout {
-                       withAnimation {
-                           workout.exercises?.append(newExercise)
-                       }
-                    
-                    }
-                    
-                   
-                  //  router.path.append(newExercise)
-                    
+                    try? modelContext.save()
+                 
                     dismiss()
                 }
                 

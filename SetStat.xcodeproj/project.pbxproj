@@ -31,6 +31,10 @@
 		B94609A92C62356300CB743E /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = B94609A82C62356300CB743E /* Inject */; };
 		B94609AB2C62356E00CB743E /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = B94609AA2C62356E00CB743E /* NavigationTransitions */; };
 		B94609AD2C63B82400CB743E /* NumberOfWorkoutsStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */; };
+		B949223C2C6A465000B7B64D /* SetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B949223B2C6A465000B7B64D /* SetsView.swift */; };
+		B949223E2C6A4C6E00B7B64D /* SetEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B949223D2C6A4C6E00B7B64D /* SetEditor.swift */; };
+		B94922422C6BA7FE00B7B64D /* ExerciseTopRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94922412C6BA7FE00B7B64D /* ExerciseTopRow.swift */; };
+		B94922442C6D1A2000B7B64D /* DetailViewExercisesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94922432C6D1A2000B7B64D /* DetailViewExercisesList.swift */; };
 		B9EA0AA82C402FF0009DCA2A /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */; };
 		B9EA0AAD2C57B967009DCA2A /* PreviousExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */; };
 		B9EA0AAF2C590190009DCA2A /* ExerciseStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */; };
@@ -79,6 +83,10 @@
 		B91FE9E02C31704C00DAA15E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStatListTile.swift; sourceTree = "<group>"; };
 		B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfWorkoutsStat.swift; sourceTree = "<group>"; };
+		B949223B2C6A465000B7B64D /* SetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetsView.swift; sourceTree = "<group>"; };
+		B949223D2C6A4C6E00B7B64D /* SetEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetEditor.swift; sourceTree = "<group>"; };
+		B94922412C6BA7FE00B7B64D /* ExerciseTopRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTopRow.swift; sourceTree = "<group>"; };
+		B94922432C6D1A2000B7B64D /* DetailViewExercisesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewExercisesList.swift; sourceTree = "<group>"; };
 		B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviousExerciseView.swift; sourceTree = "<group>"; };
 		B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStatsView.swift; sourceTree = "<group>"; };
@@ -188,16 +196,18 @@
 		B90C9FEE2C19FA0400EE25F2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B90C9FEF2C19FA1200EE25F2 /* AddWorkoutView.swift */,
+				B94922382C6A0D9300B7B64D /* Depricated */,
 				B90C9FF12C1AECFD00EE25F2 /* AddExerciseView.swift */,
-				B90A53952C1B9306005123A4 /* EditExeriseView.swift */,
-				B90A539C2C218020005123A4 /* EditWorkoutView.swift */,
 				B912D1982C381E9300AB07CA /* WorkoutListView.swift */,
 				B9EA0AA72C402FF0009DCA2A /* WorkoutDetailView.swift */,
 				B9EA0AAC2C57B967009DCA2A /* PreviousExerciseView.swift */,
 				B9EA0AAE2C590190009DCA2A /* ExerciseStatsView.swift */,
 				B94609A62C5C0E8E00CB743E /* ExerciseStatListTile.swift */,
 				B94609AC2C63B82400CB743E /* NumberOfWorkoutsStat.swift */,
+				B90A539C2C218020005123A4 /* EditWorkoutView.swift */,
+				B949223B2C6A465000B7B64D /* SetsView.swift */,
+				B949223D2C6A4C6E00B7B64D /* SetEditor.swift */,
+				B94922412C6BA7FE00B7B64D /* ExerciseTopRow.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -239,6 +249,16 @@
 				B91FE9DC2C2F11BA00DAA15E /* StatsView.swift */,
 			);
 			path = "Stats Tab";
+			sourceTree = "<group>";
+		};
+		B94922382C6A0D9300B7B64D /* Depricated */ = {
+			isa = PBXGroup;
+			children = (
+				B90A53952C1B9306005123A4 /* EditExeriseView.swift */,
+				B90C9FEF2C19FA1200EE25F2 /* AddWorkoutView.swift */,
+				B94922432C6D1A2000B7B64D /* DetailViewExercisesList.swift */,
+			);
+			path = Depricated;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -381,8 +401,11 @@
 			files = (
 				B9EA0AAF2C590190009DCA2A /* ExerciseStatsView.swift in Sources */,
 				B94609AD2C63B82400CB743E /* NumberOfWorkoutsStat.swift in Sources */,
+				B94922422C6BA7FE00B7B64D /* ExerciseTopRow.swift in Sources */,
 				B90A539D2C218020005123A4 /* EditWorkoutView.swift in Sources */,
+				B949223C2C6A465000B7B64D /* SetsView.swift in Sources */,
 				B91FE9DA2C2F118300DAA15E /* HistoryView.swift in Sources */,
+				B949223E2C6A4C6E00B7B64D /* SetEditor.swift in Sources */,
 				B912D1992C381E9300AB07CA /* WorkoutListView.swift in Sources */,
 				B90C9FF02C19FA1200EE25F2 /* AddWorkoutView.swift in Sources */,
 				B90C9FEB2C19F5B900EE25F2 /* Set.swift in Sources */,
@@ -397,6 +420,7 @@
 				B9EA0AAD2C57B967009DCA2A /* PreviousExerciseView.swift in Sources */,
 				B91FE9DD2C2F11BA00DAA15E /* StatsView.swift in Sources */,
 				B90C9FE72C19F43F00EE25F2 /* Exercise.swift in Sources */,
+				B94922442C6D1A2000B7B64D /* DetailViewExercisesList.swift in Sources */,
 				B90A53962C1B9306005123A4 /* EditExeriseView.swift in Sources */,
 				B90C9FED2C19F61900EE25F2 /* Workout.swift in Sources */,
 			);
@@ -487,7 +511,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -544,7 +568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -565,7 +589,7 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BeFit;
+				INFOPLIST_KEY_CFBundleDisplayName = "Power Workout";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -581,11 +605,15 @@
 					"-Xlinker",
 					"-interposable",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStat;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.Power;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -600,7 +628,7 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = BeFit;
+				INFOPLIST_KEY_CFBundleDisplayName = "Power Workout";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -612,11 +640,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStat;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.Power;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -631,7 +663,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.Power.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -651,7 +683,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.Power.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -669,7 +701,7 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStatUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.PowerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -687,7 +719,7 @@
 				DEVELOPMENT_TEAM = P8LS79FMXQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.SetStatUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = labudsoft.com.PowerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

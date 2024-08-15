@@ -16,7 +16,7 @@ struct PreviousExerciseView: View {
     //we can force unwrap this because the button isnt even shown if previousExercise is empty
     var previousExercise: Exercise?
     
-    @Binding var sets: [MySet]
+    //@Binding var sets: [MySet]
 
 
     
@@ -60,18 +60,19 @@ struct PreviousExerciseView: View {
                                     
                                     //Button to dublicate the current set and add it to the list
                                     Button {
-                                        print("Current sets count: \(sets.count)")
-                                        if(sets.count <= 7) {
+                                       // print("Current sets count: \(sets.count)")
+                                       // if(sets.count <= 10) {
                                             let weight = set.weight
                                             let reps = set.reps
-                                            let newSet = MySet(id: UUID(),weight: weight, reps: reps, isCompleted: false, exercise: exercise)
+                                            let newSet = MySet(id: UUID(),weight: weight, reps: reps, isCompleted: false,date: Date.now, exercise: exercise)
                                             //chatgpt i have isolated that this line of code causes that problem why is this happening
-                                            withAnimation {
-                                                sets.append(newSet)
-                                            }
+//                                            withAnimation {
+//                                                sets.append(newSet)
+//                                            }
+                                            modelContext.insert(newSet)
                                             dismiss()
-                                        }
-                                        
+                                       // }
+                                       //
                                         
                                     }
                                 label: {

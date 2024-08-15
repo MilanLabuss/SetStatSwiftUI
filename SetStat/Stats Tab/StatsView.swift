@@ -26,6 +26,8 @@ struct StatsView: View {
  
     @Query var exerciseNames: [ExerciseName]
     
+ 
+    
 
     
     var body: some View {
@@ -34,6 +36,7 @@ struct StatsView: View {
 
                 
                 List {
+                                        
                     Section("Total Workouts") {
                         //chatgpt give this a tiny bit of elevation
                         NumberOfWorkoutsStat()

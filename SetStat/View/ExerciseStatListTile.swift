@@ -15,9 +15,26 @@ struct ExerciseStatListTile: View {
     
     var exerciseName: ExerciseName
     
+    
     var body: some View {
         VStack {
             HStack {
+                
+//                
+//                
+//                Button {
+//                    exerciseName.isFavorite.toggle()
+//                } label:  {
+//                    if exerciseName.isFavorite {
+//                        Image(systemName: "star.fill")
+//                            .foregroundStyle(.yellow)
+//                    }else {
+//                        Image(systemName: "star")
+//                    }
+//                }.buttonStyle(.plain)
+                
+                
+                
                 Text("\(exerciseName.name)")
                 
 
@@ -42,7 +59,6 @@ struct ExerciseStatListTile: View {
             if showDetail {
                 ExerciseStatsView(exerciseName: exerciseName)
                     .transition(.moveAndFade)
-                
             }
         }
         

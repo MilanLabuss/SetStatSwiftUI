@@ -13,52 +13,34 @@ class Exercise: Identifiable {
     var id: UUID
     var exerciseName: ExerciseName
     
-    @Relationship(deleteRule: .cascade)
+    @Relationship(deleteRule: .cascade, inverse: \MySet.exercise)
     var sets: [MySet]?    //When an Exercise gets Deleted all Sets associated need to get deleted
+
     var date: Date
-    var workout: Workout?       //it can belong to a work but it doesnt have to
+    var workout: Workout
+ 
+    func copy(newworkout: Workout) -> Exercise {
+        let newExercise = Exercise(id: UUID(), exerciseName: exerciseName, date: Date.now, workout: newworkout)
+        
+        // Copy the related sets
+//        if let existingSets = sets {
+//            newExercise.sets = existingSets.map { set in
+//                // Copy each set and associate it with the newExercise
+//                let newSet = set.copy(newexercise: newExercise)
+//                return newSet
+//            }
+//        }
+       
+            newExercise.sets = sets?.map {  $0.copy(newexercise: newExercise) }
+        return newExercise
+    }
     
-    func copy() -> Exercise {
-        let exercise = Exercise(id: UUID(), exerciseName: exerciseName, date: Date.now)
-           // exercise.sets = sets?.map { $0.copy(exercise: exercise) }
-            exercise.sets = sets?.map { set in
-                set.copy(exercise: exercise)    //map all of the sets by calling the sets copy method for each one in the loop using $0 syntax
-            }
-            return exercise
-        }
-    
-    init(id: UUID, exerciseName: ExerciseName, date: Date) {
+    init(id: UUID, exerciseName: ExerciseName, date: Date, workout: Workout) {
         self.id = id
         self.exerciseName = exerciseName
         self.date = date
+        self.workout = workout
     }
-//    
-//    // Codable conformance
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case exerciseName
-//        case sets
-//        case date
-//        case workout
-//    }
-//    
-//    required init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        id = try container.decode(UUID.self, forKey: .id)
-//        exerciseName = try container.decode(ExerciseName.self, forKey: .exerciseName)
-//        sets = try container.decodeIfPresent([Set].self, forKey: .sets)
-//        date = try container.decode(Date.self, forKey: .date)
-//        workout = try container.decodeIfPresent(Workout.self, forKey: .workout)
-//    }
-//    
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(id, forKey: .id)
-//        try container.encode(exerciseName, forKey: .exerciseName)
-//        try container.encodeIfPresent(sets, forKey: .sets)
-//        try container.encode(date, forKey: .date)
-//        try container.encodeIfPresent(workout, forKey: .workout)
-//    }
-//    
+
     
 }
