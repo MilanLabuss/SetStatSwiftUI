@@ -17,6 +17,7 @@ struct WorkoutListView: View {
     
     @Query(animation: .easeIn) var workouts: [Workout]
     @Query var exercises: [Exercise]
+    @Query var sets: [MySet]
 
     var selectedDate : Date
     
@@ -165,45 +166,89 @@ struct WorkoutListView: View {
     }
     
     
+//    func duplicateWorkout(workout: Workout) {
+//        //chatgpt use the exercises query to find all exercises whos workout matches the passed down workout and put it into a Closure
+//        
+//        let newWorkout = Workout(id: UUID(), name: workout.name, startTime: Date.now, endTime: Date.now)
+//        modelContext.insert(newWorkout)
+//        if let exercises = workout.exercises {
+//         
+//            for exercise in exercises {
+//                let newExercise = Exercise(
+//                    id: UUID(),
+//                    exerciseName: exercise.exerciseName,
+//                    date: Date.now,
+//                    workout: newWorkout
+//                )
+//                 modelContext.insert(newExercise)
+//                
+//                if let sets = exercise.sets {
+//                   // var newSets: [MySet] = []
+//                    
+//                    for set in sets {
+//               
+//                        let newSet = MySet(
+//                            id: UUID(),
+//                           
+//                            weight: set.weight,
+//                            reps: set.reps,
+//                            isCompleted: false,
+//                            date: Date.now,
+//                            exercise: newExercise
+//                        )
+//                        
+//                       modelContext.insert(newSet)
+//                       // newExercise.sets?.append(newSet)
+//                    }
+// 
+//                }
+// 
+//            }
+//           
+//            
+//        }
+//    }
+//    
+    
+    
     func duplicateWorkout(workout: Workout) {
+        // Create a new Workout instance
         let newWorkout = Workout(id: UUID(), name: workout.name, startTime: Date.now, endTime: Date.now)
         modelContext.insert(newWorkout)
-        if let exercises = workout.exercises {
-         
-            for exercise in exercises {
-                let newExercise = Exercise(
+
+        // Fetch the exercises related to the workout using the `exercises` query
+        let relatedExercises = exercises.filter { $0.workout == workout }
+
+        for exercise in relatedExercises {
+            // Create a new Exercise instance for the duplicated workout
+            let newExercise = Exercise(
+                id: UUID(),
+                name: exercise.name,
+                date: Date.now,
+                workout: newWorkout
+            )
+            modelContext.insert(newExercise)
+
+            // Fetch the sets related to the current exercise
+            let relatedSets = sets.filter { $0.exercise == exercise }
+
+            for set in relatedSets {
+                // Create a new MySet instance for the duplicated exercise
+                let newSet = MySet(
                     id: UUID(),
-                    exerciseName: exercise.exerciseName,
+                    weight: set.weight,
+                    reps: set.reps,
+                    isCompleted: false,
                     date: Date.now,
-                    workout: newWorkout
+                    exercise: newExercise
                 )
-                 modelContext.insert(newExercise)
-                
-                if let sets = exercise.sets {
-                   // var newSets: [MySet] = []
-                    
-                    for set in sets {
-                        // Create a new Set instance linked to the new Exercise
-                        let newSet = MySet(
-                            id: UUID(),
-                            // Replace with actual properties of MySet
-                            weight: set.weight,
-                            reps: set.reps,
-                            isCompleted: false,
-                            date: Date.now,
-                            exercise: newExercise
-                        )
-                        
-                       modelContext.insert(newSet)
-                       // newExercise.sets?.append(newSet)
-                    }
- 
-                }
- 
+                modelContext.insert(newSet)
             }
-           
-            
         }
     }
+
+    
+    
+    
 }
 

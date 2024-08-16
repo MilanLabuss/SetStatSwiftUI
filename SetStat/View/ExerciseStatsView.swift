@@ -64,7 +64,7 @@ struct ExerciseStatsView: View {
         self.exerciseName = exerciseName
         let exercisenamesName = exerciseName.name
         _exercises = Query(filter: #Predicate<Exercise> {
-            $0.exerciseName.name == exercisenamesName
+            $0.name == exercisenamesName
         }, sort: \Exercise.date)
         
     }
@@ -113,10 +113,12 @@ struct ExerciseStatsView: View {
                 
                 if let sets = exercise.sets {
                     for set in sets {
-                        if set.weight > bestSetOfPeriod.weight {
-                            bestSetOfPeriod.weight = set.weight
-                            bestSetOfPeriod.reps = set.reps
-                            //now Add reps too to make a oneRep Max
+                        if let setWeight = set.weight {
+                            if setWeight > bestSetOfPeriod.weight {
+                                bestSetOfPeriod.weight = set.weight ?? 0
+                                bestSetOfPeriod.reps = set.reps ?? 0
+                                //now Add reps too to make a oneRep Max
+                            }
                         }
                     }
                 }

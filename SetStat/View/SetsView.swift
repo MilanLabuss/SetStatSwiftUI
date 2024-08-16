@@ -32,9 +32,14 @@ struct SetsView: View {
                        HStack(spacing: 10) {
                            SetEditor(currentIndex: index , myset: myset, onDelete: { deleteSet(myset) }, copySet: { copySet(myset) })
                        }
+                       //chatgpt this divider only shows up when there is a third set introduced i neeed it when there are two sets too
                        if index < filteredSets.count - 1 {
                            Divider()
                        }
+                       if index == 0 && filteredSets.count == 2 {
+                           Divider()
+                       }
+                      
                    }
                    .padding(.top, 1)
                    .padding(.bottom, 3)
@@ -49,7 +54,7 @@ struct SetsView: View {
        }
     
     private func copySet(_ myset: MySet) {
-        var newSet = MySet(id: UUID(), weight: myset.weight, reps: myset.reps, isCompleted: false, date: Date.now, exercise: exercise)
+        let newSet = MySet(id: UUID(), weight: myset.weight ?? 0, reps: myset.reps ?? 0, isCompleted: false, date: Date.now, exercise: exercise)
         modelContext.insert(newSet)
          //  modelContext.delete(myset)
 

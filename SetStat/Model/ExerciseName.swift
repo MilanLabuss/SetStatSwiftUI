@@ -12,11 +12,11 @@ import SwiftData
 class ExerciseName {
 
     var name: String
-    var isFavorite: Bool
+  
     
-    init(name: String = "", isFavorite: Bool) {
+    init(name: String = "") {
         self.name = name
-        self.isFavorite = isFavorite
+     
     }
 
     
@@ -26,9 +26,9 @@ extension ExerciseName {
     
     static var defaults: [ExerciseName] {
         [
-            .init(name: "Bench Press", isFavorite: false),
-            .init(name: "Squat",isFavorite: false),
-            .init(name: "Deadlift", isFavorite: false),
+            .init(name: "Bench Press"),
+            .init(name: "Squat"),
+            .init(name: "Deadlift"),
         ]
     }
     

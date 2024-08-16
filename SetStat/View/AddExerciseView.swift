@@ -13,7 +13,13 @@ import SwiftData
 //This will be Presented as a Sheet to select an Exercise Name to Create an Exercise
 struct AddExerciseView: View {
     @Environment(\.modelContext) var modelContext
-    @Query var exercisesNames: [ExerciseName]
+    
+    
+
+    
+    @Query(sort: \ExerciseName.name) var exercisesNames: [ExerciseName]
+    
+    
     @State private var showNameInput = false
     @State private var exerciseName = ""
     @State private var selection: ExerciseName?
@@ -51,6 +57,7 @@ struct AddExerciseView: View {
             if(showNameInput == true) {
                 HStack{
                     TextField("Enter Exercise Name", text: $exerciseName)
+                        .textInputAutocapitalization(.words)
                         .onChange(of: exerciseName) {
                                           // Limit the text to 26 characters
                                           if exerciseName.count > 26 {
@@ -63,12 +70,11 @@ struct AddExerciseView: View {
                     
                     
                     Button {
-                        //database operation adding exerciseName to ExerciseName model
-                        //ChatGpt SomeTimes pressing this button
+
                         if (!exerciseName.isEmpty) {
                             
                             if (!exercisesNames.contains(where: { $0.name.lowercased() == exerciseName.lowercased() })) {
-                                let newExeriseName = ExerciseName(name: exerciseName, isFavorite: false)
+                                let newExeriseName = ExerciseName(name: exerciseName)
                                 modelContext.insert(newExeriseName)
                                 showNameInput.toggle()
                                 }
@@ -106,22 +112,24 @@ struct AddExerciseView: View {
             
             //Done Button will add new exercise and dismiss the sheet
             Button {
-                if(selection != nil) {
+              //  if(selection != nil) {
              
-                    let newExercise = Exercise(id: UUID(),exerciseName: selection!, date: workout.endTime, workout: workout)
-    
-                     modelContext.insert(newExercise)
-                    
-               
-                    
-                    let set =  MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false,date: Date.now ,exercise: newExercise)
+                    if let selectedExercise = selection {
+                        let newExercise = Exercise(id: UUID(),name: selectedExercise.name, date: workout.endTime, workout: workout)
+        
+                         modelContext.insert(newExercise)
+                        
+                   
+                        
+                        let set =  MySet(id: UUID(), weight: nil, reps: nil, isCompleted: false,date: Date.now ,exercise: newExercise)
 
-                     modelContext.insert(set)
-                    
-                    try? modelContext.save()
-                 
-                    dismiss()
-                }
+                         modelContext.insert(set)
+                        
+                        try? modelContext.save()
+                     
+                        dismiss()
+                    }
+               // }
                 
             } label: {
                 Text("Done")

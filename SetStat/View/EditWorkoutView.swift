@@ -88,14 +88,14 @@ struct EditWorkoutView: View {
                                     Button{
                                         if let exercisesets = exercise.sets {
                                             if(exercisesets.count <= 9) {
-                                                let newSet = MySet(id: UUID(), weight: 0, reps: 0,isCompleted: false,date: Date.now , exercise: exercise)
+                                                let newSet = MySet(id: UUID(), weight: nil, reps: nil,isCompleted: false,date: Date.now , exercise: exercise)
                                                 //ChatGpt I cannot see this being added until i Refresh the app
                                                 modelContext.insert(newSet)
                                                
                                             }
                                         }
                                     }label: {
-                                        Text("Add set")
+                                        Text("Add Set")
                                             .underline()
                                             .foregroundStyle(.blue)
                                             
@@ -215,6 +215,11 @@ struct EditWorkoutView: View {
                                      exercise.date = workoutEndTime
                                }
                         }
+                    
+                  //Setting the Tip Parameter to True
+                    CopyWorkoutTip.workoutAdded = true
+                    
+
  
                         dismiss()
                    // }
@@ -244,6 +249,9 @@ struct EditWorkoutView: View {
                                      exercise.date = workoutEndTime
                                }
                         }
+                    
+                    //Setting the Tip Parameter to True
+                      CopyWorkoutTip.workoutAdded = true
                         
                         dismiss()
                         
